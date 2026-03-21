@@ -38,6 +38,9 @@
 25. [Human Mentor System - 2x Call/Month](#25-human-mentor-system---biweekly-calls--ai-voice-mentor-247)
 26. [Geo-Fencing & Location-Based discipline](#26-geo-fencing--location-based-features-special-request)
 27. [One-Stop Solution - Summary](#27-one-stop-solution---everything-under-gs-360)
+28. [Plan Engineering: Monthly vs Yearly Strategy](#28-plan-engineering-monthly-vs-yearly-strategy)
+29. [The Comprehensive Financial & Operational Model](#29-the-comprehensive-financial--operational-model)
+30. [The One-Stop Solution: Why This Wins](#30-the-one-stop-solution-why-this-wins)
 
 ---
 
@@ -3052,3 +3055,78 @@ THAT'S IT. NOTHING ELSE.
 ```
 
 ---
+
+
+---
+
+## 28. Plan Engineering: Monthly vs Yearly Strategy
+
+### 28.1 The "Upgrade & Save" Philosophy
+GS 360 uses a two-step conversion funnel. We use **Monthly plans** to lower the friction of entry and **Yearly plans** to lock in student commitment and normalize cash flow.
+
+| Plan | Monthly Rate | Yearly Rate (Upfront) | One-Time Savings |
+|------|--------------|-----------------------|------------------|
+| **Core** | Rs 2,499 | Rs 24,999 | Rs 4,989 (2 Months Free) |
+| **Pro** | Rs 4,499* | Rs 44,999 | Rs 14,489 (25% Savings) |
+| **Elite** | Rs 7,499* | Rs 74,999 | Rs 24,989 (25% Savings) |
+
+### 28.2 The "Kit Fee" Protection
+To prevent students from subscribing for one month, receiving the Rs 6,100 Welcome Kit, and then cancelling, we implement a **Kit Fee** for Monthly users.
+
+* **For Core:** No Kit Fee (Digital Only).
+* **For Pro/Elite Monthly:**
+  * **Month 1 Payment:** Rs 9,999 (Subscription + Rs 5,500 Kit Fee).
+  * **Month 2 onwards:** Rs 4,499.
+  * *Result:* The student essentially "buys" the books in Month 1.
+* **For Pro/Elite Yearly:**
+  * Kit Fee is **WAIVED (Rs 0)**.
+  * This is our strongest nudge to convert students to the Yearly plan.
+
+---
+
+## 29. The Comprehensive Financial & Operational Model
+
+### 29.1 Unit Economics per Student (Pro Tier)
+
+| Item Category | Component | Unit Cost (Pro) | Type |
+|---------------|-----------|-----------------|------|
+| **Marketing** | Blended CAC (YT/Ads) | Rs 8,000 | Acquisition |
+| **Materials** | Welcome Kit (30 Books) | Rs 6,100 | COGS (Fixed) |
+| **Logistics** | Shipping & Packing | Rs 450 | COGS (Fixed) |
+| **Testing** | 12x Monthly Test Packs | Rs 4,200 | COGS (Variable)|
+| **Payment** | Gateway Fee (Net 2%) | Rs 900 | Variable |
+| **TOTAL VARIABLE COST** | | **Rs 19,650** | |
+
+* **Average Net Revenue (Pro):** Rs 38,135 (Excl. 18% GST).
+* **Gross Profit per Student:** **Rs 18,485 (48.4% Margin).**
+
+### 29.2 Annual Operational Expenditure (Fixed Costs)
+
+| Department | Expense Item | Monthly Burn | Annual Burn |
+|------------|--------------|--------------|-------------|
+| **Technology**| 10-man Dev Team | Rs 15,00,000 | Rs 1,80,00,000 |
+| **Platform** | Cloud/AI API Tokens | Rs 5,00,000 | Rs 60,00,000 |
+| **Faculty** | SRIAS Subject Experts| Rs 5,20,000 | Rs 62,40,000 |
+| **Review** | SRIAS Quality Control| Rs 1,65,000 | Rs 20,00,000 |
+| **Admin** | Ops & Support Staff | Rs 3,00,000 | Rs 36,00,000 |
+| **TOTAL FIXED COST** | | **Rs 29,85,000** | **Rs 3,58,40,000**|
+
+### 29.3 Profitability & Break-Even Analysis
+
+* **Break-Even Student Count:** 
+  `Fixed Cost (3.58 Cr) / Gross Profit (18.4k)` = **~1,940 Students.**
+* **Revenue at Target (6,000 Stu):** 
+  `6,000 * 38,135` = **Rs 22.88 Crore (Net).**
+* **Variable Cost (6,000 Stu):** 
+  `6,000 * 19,650` = **Rs 11.79 Crore.**
+* **EBITDA (Annual Profit):**
+  `Net Revenue (22.88) - Total Variable (11.79) - Fixed (3.58)` = **Rs 7.51 Crore.**
+
+---
+
+## 30. The One-Stop Solution: Why This Wins
+
+1. **Unit Economics:** Even at conservative targets (6,000 students), we generate Rs 7.5 Cr+ in profit.
+2. **Moat:** No other platform has a physical-digital bridge that integrates 30 standard books with AI feedback.
+3. **Market Proof:** The UPSC market spends Rs 3,000+ Crore annually. Capturing just **1.5% of serious aspirants** leads to massive profitability.
+4. **ROI:** The initial R&D investment of Rs 1.8 Cr is recovered **4x over** in the first year of full operation.
