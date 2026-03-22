@@ -66,8 +66,7 @@ body.light .notes-input{background:transparent;}
 body.light select{background:#EEF2FC !important;border-color:var(--border2) !important;}
 body.light .quiz-opt{background:#EEF2FC;border-color:var(--border);}
 body.light .quiz-opt:hover{background:#DDE5F4;}
-body.light .voice-panel{background:var(--surface);border-color:var(--border2);}
-body.light .voice-opt{background:#EEF2FC;border-color:var(--border);}
+body.light .voice-settings{background:var(--surface);border-color:var(--border2);}
 body.light .plan-hour-track{border-left-color:var(--border);}
 body.light .week-task-pip{background:#DDE5F4;border-color:var(--border);}
 body.light .streak-badge{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.25);}
@@ -76,7 +75,7 @@ body.light .command-banner{background:linear-gradient(135deg,rgba(30,75,155,.06)
 body.light .alert-item.warn{background:rgba(217,119,6,.04);border-color:rgba(217,119,6,.18);}
 body.light .alert-item.danger{background:rgba(220,38,38,.04);border-color:rgba(220,38,38,.18);}
 body.light .alert-item.info{background:rgba(30,75,155,.04);border-color:rgba(30,75,155,.18);}
-body.light .voice-btn{box-shadow:0 4px 16px rgba(220,38,38,.2);}
+body.light .siri-orb-core{box-shadow:inset 0 1px 2px rgba(255,255,255,.6), 0 2px 12px rgba(0,0,0,.15);}
 body.light .progress-wrap{background:#D0DCEE;}
 body.light .perf-bar-wrap{background:#D0DCEE;}
 body.light .task-check{border-color:var(--border2);}
@@ -102,7 +101,7 @@ body.light [style*="background:var(--gold)"][style*="color:#000"]{color:#000 !im
 body.light .plan-block-title{color:inherit;}
 /* Inline white text in cards, stats, etc */
 body.light .readiness-val{color:var(--gold);}
-body.light .voice-panel-title{color:var(--text);}
+
 body.light .modal-box [style*="color:#fff"]{color:var(--text) !important;}
 /* Alert titles */
 body.light .alert-title{color:var(--text);}
@@ -119,7 +118,7 @@ body.light .quiz-opt.selected .opt-letter{color:#fff !important;}
 /* theme btn active text stays readable */
 body.light .theme-btn.active{color:#1A1A14;}
 /* voice speaking label */
-body.light .voice-speaking-bar span{color:var(--text2);}
+body.light .voice-state{color:var(--text2);}
 /* Plan now marker */
 body.light .plan-now-marker{color:var(--gold);}
 
@@ -392,30 +391,51 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .banner-days{font-family:var(--font-head);font-size:24px;font-weight:600;color:var(--gold);}
 .banner-days-label{font-size:11px;color:var(--text3);}
 
-/* VOICE WIDGET */
-.voice-fab{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
-.voice-btn{width:52px;height:52px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 20px rgba(232,160,32,.35);transition:all .2s;}
-.voice-btn:hover{background:var(--gold2);transform:scale(1.05);}
-.voice-btn.speaking{animation:pulse-ring 1.5s infinite;}
-@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(232,160,32,.5);}70%{box-shadow:0 0 0 14px rgba(232,160,32,0);}100%{box-shadow:0 0 0 0 rgba(232,160,32,0);}}
-.voice-panel{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:16px;width:280px;display:none;}
-.voice-panel.open{display:block;}
-.voice-panel-title{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;}
-.voice-panel-sub{font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-bottom:12px;}
-.voice-options{display:flex;flex-direction:column;gap:6px;}
-.voice-opt{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:5px;background:var(--surface2);border:1px solid var(--border);cursor:pointer;font-size:13px;color:var(--text);transition:all .15s;}
-.voice-opt:hover{border-color:var(--gold);color:var(--gold);}
-.voice-opt-icon{font-size:14px;width:20px;text-align:center;}
-.voice-speaking-bar{display:none;align-items:center;gap:4px;margin-top:10px;padding:8px 0;}
-.voice-speaking-bar.active{display:flex;}
-.voice-bar{width:3px;border-radius:2px;background:var(--gold);animation:bar-bounce .8s ease infinite;}
-.voice-bar:nth-child(1){height:8px;animation-delay:0s;}
-.voice-bar:nth-child(2){height:16px;animation-delay:.1s;}
-.voice-bar:nth-child(3){height:12px;animation-delay:.2s;}
-.voice-bar:nth-child(4){height:20px;animation-delay:.05s;}
-.voice-bar:nth-child(5){height:10px;animation-delay:.15s;}
-@keyframes bar-bounce{0%,100%{transform:scaleY(1);opacity:.7;}50%{transform:scaleY(1.6);opacity:1;}}
-.voice-stop-btn{font-size:11px;font-family:var(--font-mono);color:var(--red);cursor:pointer;margin-left:auto;border:none;background:transparent;padding:0;}
+/* VOICE — Siri Orb + S2S */
+.voice-fab{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;flex-direction:column;align-items:center;gap:6px;}
+
+/* === SIRI ORB === */
+.siri-orb{width:68px;height:68px;border-radius:50%;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+.siri-orb:hover{transform:scale(1.06);}
+/* Dark glass center */
+.siri-orb-core{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 35%, rgba(60,60,80,.95), rgba(20,20,30,.98));position:relative;z-index:2;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:inset 0 1px 2px rgba(255,255,255,.1), 0 2px 12px rgba(0,0,0,.4);}
+body.light .siri-orb-core{background:radial-gradient(circle at 35% 35%, rgba(220,225,240,.95), rgba(200,208,230,.98));box-shadow:inset 0 1px 2px rgba(255,255,255,.6), 0 2px 12px rgba(0,0,0,.15);}
+/* Animated glow ring behind the core */
+.siri-orb-glow{position:absolute;inset:-6px;border-radius:50%;z-index:1;opacity:0.4;transition:opacity .3s, filter .3s;filter:blur(10px);}
+/* Idle: subtle warm glow */
+.siri-orb[data-state="idle"] .siri-orb-glow{background:conic-gradient(from 0deg, rgba(232,160,32,.5), rgba(232,160,32,.2), rgba(232,160,32,.5));opacity:0.35;animation:siri-idle 4s ease-in-out infinite;}
+/* Listening: vibrant multi-color like Siri */
+.siri-orb[data-state="listening"] .siri-orb-glow{background:conic-gradient(from 0deg, #ff6b6b, #ee5a24, #e84393, #6c5ce7, #0984e3, #00b894, #fdcb6e, #ff6b6b);opacity:0.85;filter:blur(14px);animation:siri-spin 1.8s linear infinite, siri-breathe 0.8s ease-in-out infinite;}
+.siri-orb[data-state="listening"] .siri-orb-core{box-shadow:inset 0 1px 2px rgba(255,255,255,.15), 0 0 20px rgba(238,90,36,.3);}
+/* Thinking: rotating cool gradient */
+.siri-orb[data-state="thinking"] .siri-orb-glow{background:conic-gradient(from 0deg, #6c5ce7, #0984e3, #00b894, #6c5ce7);opacity:0.7;filter:blur(12px);animation:siri-spin 2.5s linear infinite, siri-pulse 1.2s ease-in-out infinite;}
+/* Speaking: warm pulsing glow */
+.siri-orb[data-state="speaking"] .siri-orb-glow{background:conic-gradient(from 0deg, #fdcb6e, #e17055, #fd79a8, #a29bfe, #55efc4, #fdcb6e);opacity:0.8;filter:blur(16px);animation:siri-spin 3s linear infinite, siri-speak-pulse 0.5s ease-in-out infinite;}
+.siri-orb[data-state="speaking"] .siri-orb-core{box-shadow:inset 0 1px 2px rgba(255,255,255,.15), 0 0 24px rgba(253,203,110,.3);}
+
+@keyframes siri-idle{0%,100%{opacity:0.3;transform:scale(1);}50%{opacity:0.45;transform:scale(1.03);}}
+@keyframes siri-spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes siri-breathe{0%,100%{transform:rotate(0deg) scale(1);}50%{transform:rotate(180deg) scale(1.12);}}
+@keyframes siri-pulse{0%,100%{opacity:0.6;transform:rotate(0deg) scale(1);}50%{opacity:0.85;transform:rotate(180deg) scale(1.08);}}
+@keyframes siri-speak-pulse{0%,100%{opacity:0.7;transform:rotate(0deg) scale(1);}50%{opacity:0.95;transform:rotate(180deg) scale(1.15);}}
+
+.voice-state{font-size:10px;font-family:var(--font-mono);color:var(--text3);text-align:center;min-height:14px;pointer-events:none;opacity:0;transition:opacity .2s;}
+.voice-state.visible{opacity:1;}
+.voice-gear{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all .15s;}
+.voice-gear:hover{border-color:var(--gold);color:var(--gold);}
+.voice-settings{display:none;position:fixed;bottom:115px;right:24px;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:1000;}
+.voice-settings.open{display:block;}
+.voice-settings-title{font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:8px;letter-spacing:.5px;}
+.api-key-bar{display:flex;align-items:center;gap:6px;margin-bottom:8px;padding:6px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;}
+.api-key-bar input{flex:1;background:transparent;border:none;outline:none;font-size:11px;color:var(--text);font-family:var(--font-mono);}
+.api-key-bar button{font-size:10px;padding:3px 8px;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font-mono);transition:all .15s;}
+.api-key-bar button:hover{border-color:var(--gold);color:var(--gold);}
+.api-key-bar.saved{border-color:rgba(46,204,113,.3);}
+.api-key-bar.saved input{color:var(--green);}
+.voice-model-sel{font-size:11px;padding:4px 8px;border-radius:4px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font-mono);outline:none;cursor:pointer;width:100%;}
+body.light .voice-model-sel{background:#EEF2FC;border-color:var(--border2);}
+body.light .api-key-bar{background:#EEF2FC;border-color:var(--border2);}
+body.light .api-key-bar input{color:var(--text);}
 
 /* AI NOTES */
 .ai-chip{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:2px 8px;border-radius:3px;background:rgba(232,160,32,.1);border:1px solid rgba(232,160,32,.25);color:var(--gold);font-family:var(--font-mono);}
@@ -2041,35 +2061,36 @@ Current affairs link:"></textarea>
   </div>
 </div>
 
-<!-- VOICE FAB -->
+<!-- VOICE — True S2S via Siri Orb -->
 <div class="voice-fab">
-  <div class="voice-panel" id="voice-panel">
-    <div class="voice-panel-title">AI Voice — Shubhra Ma'am</div>
-    <div class="voice-panel-sub">DUMMY VOICE · Web Speech API</div>
-    <div class="voice-options">
-      <div class="voice-opt" onclick="speakText('plan')">
-        <div class="voice-opt-icon">📋</div> Read Today's Plan
-      </div>
-      <div class="voice-opt" onclick="speakText('brief')">
-        <div class="voice-opt-icon">🎯</div> Morning Briefing
-      </div>
-      <div class="voice-opt" onclick="speakText('weak')">
-        <div class="voice-opt-icon">⚠</div> Weak Area Alert
-      </div>
-      <div class="voice-opt" onclick="speakText('motivation')">
-        <div class="voice-opt-icon">🔥</div> Motivational Boost
-      </div>
-      <div class="voice-opt" onclick="speakText('revision')">
-        <div class="voice-opt-icon">📖</div> Revision Reminder
-      </div>
+  <!-- Settings panel (hidden, gear toggle) -->
+  <div class="voice-settings" id="voice-settings">
+    <div class="voice-settings-title">VOICE SETTINGS</div>
+    <div class="api-key-bar" id="api-key-bar">
+      <span style="font-size:11px;">🔑</span>
+      <input type="password" id="openai-key-input" placeholder="OpenAI API key..." />
+      <button onclick="saveOpenAiKey()">Save</button>
     </div>
-    <div class="voice-speaking-bar" id="voice-speaking-bar">
-      <div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div><div class="voice-bar"></div>
-      <span style="font-size:11px;color:var(--text2);margin-left:8px;flex:1;" id="voice-speaking-label">Speaking...</span>
-      <button class="voice-stop-btn" onclick="stopVoice()">■ Stop</button>
-    </div>
+    <select class="voice-model-sel" id="voice-model-sel" onchange="setVoiceModel(this.value)">
+      <option value="alloy">alloy — neutral</option>
+      <option value="nova" selected>nova — warm</option>
+      <option value="shimmer">shimmer — expressive</option>
+      <option value="echo">echo — male</option>
+      <option value="onyx">onyx — deep</option>
+      <option value="fable">fable — narrative</option>
+    </select>
+    <div class="key-timer" id="key-timer" style="display:none;font-size:10px;font-family:var(--font-mono);color:var(--text3);text-align:center;padding:4px 0;"></div>
+    <button onclick="nukeAllKeys()" style="width:100%;margin-top:8px;padding:6px 0;border-radius:4px;border:1px solid rgba(239,68,68,.4);background:rgba(239,68,68,.08);color:var(--red);font-size:11px;font-family:var(--font-mono);cursor:pointer;transition:all .15s;" onmouseover="this.style.background='rgba(239,68,68,.2)'" onmouseout="this.style.background='rgba(239,68,68,.08)'">🗑 Wipe Key & Exit Demo</button>
   </div>
-  <button class="voice-btn" id="voice-fab-btn" onclick="toggleVoicePanel()" title="AI Voice">🎙</button>
+  <!-- State label -->
+  <div class="voice-state" id="voice-state"></div>
+  <!-- Siri Orb — tap to start/stop recording -->
+  <div class="siri-orb" id="siri-orb" data-state="idle" onclick="voiceTap()" title="Tap to talk">
+    <div class="siri-orb-glow"></div>
+    <div class="siri-orb-core" id="siri-orb-core">🎙</div>
+  </div>
+  <!-- Tiny gear for settings -->
+  <button class="voice-gear" id="voice-gear" onclick="toggleVoiceSettings()" title="Settings">⚙</button>
 </div>
 
 <script>
@@ -2324,53 +2345,641 @@ function showMentor(){
   document.getElementById('mentor-modal').scrollIntoView({behavior:'smooth'});
 }
 
-// ===== VOICE ENGINE (Web Speech API) =====
-let voicePanelOpen = false;
-function toggleVoicePanel(){
-  voicePanelOpen = !voicePanelOpen;
-  document.getElementById('voice-panel').classList.toggle('open', voicePanelOpen);
+// ===== VOICE ENGINE (Natural Voice — Tap → Speak → Hear) =====
+let currentAudio = null;
+let oaiVoiceModel = 'nova';
+let v2vConversation = [
+  {role:'system', content:`You are the AI voice assistant for GS 360 — India's first execution-first UPSC preparation platform, powered by Shubhra Ranjan IAS (SRIAS). You speak as a warm, knowledgeable UPSC coach.
+
+ABOUT GS 360:
+GS 360 is NOT another content warehouse. It is a performance-driven ecosystem that bridges the gap between online convenience and offline coaching intensity. The core philosophy: "Stop Watching. Start Proving." Most aspirants fail not because they lack content (10,000+ hours exist free), but because they lack execution, retention, and discipline. GS 360 solves exactly this.
+
+KEY FEATURES:
+- Daily Command Center: An action-first dashboard showing today's tasks, streak, readiness meter, weak areas, and schedule. No overwhelm — just clear tasks.
+- AI Notes Generator: Powered by Claude AI — generates structured UPSC notes, mind maps, Q&A, revision summaries, and Mains answer frameworks on any topic.
+- Smart Study Plan: AI-generated daily schedule adapting to the student's pace, weak areas, and exam timeline.
+- Revision Engine: Fights the Ebbinghaus forgetting curve with spaced repetition — tracks retention % per topic and auto-schedules revision.
+- Performance Dashboard: Tracks accuracy across GS1 (History, Geography, Society), GS2 (Polity, Governance, IR), GS3 (Economy, Environment, S&T), GS4 (Ethics). Shows subject-wise heatmaps, week-over-week trends, and exam readiness projections.
+- Testing System: UPSC-style Prelims MCQ tests with explanations and PYQ references.
+- AI Cowork Agent: Deep research agent that analyses uploaded documents (Budget, Economic Survey, etc.) and generates UPSC-angle questions and notes.
+- Answer Writing Practice: Mains answer frameworks with AI-scored rubric feedback.
+- Current Affairs Hub: Daily newspaper analysis integrated with UPSC syllabus mapping.
+- Enforcement Engine: Accountability features — daily targets, streak tracking, mentor alerts, and revision nudges.
+- AI Voice Bot (this!): Voice-to-voice UPSC companion for doubts, quizzes, daily briefings, revision recall, motivation, and interview simulation.
+
+THIS IS A DEMO:
+This is a live product demo showcasing the GS 360 platform's UI, AI capabilities, and student experience. Some data shown is sample/simulated (e.g., the student profile "Arjun", streak counts, accuracy numbers). In this demo, you can explore all screens, generate real AI notes, interact with this voice assistant, and see the full daily workflow.
+
+FULL PRODUCTION CAPABILITIES (beyond this demo):
+- Real student profiles with actual performance data synced from tests and daily tasks.
+- WhatsApp integration for voice messages, daily CA delivery, and streak nudges.
+- Hindi + English + Hinglish voice support.
+- AI Interview Simulator: full 25-minute mock interviews based on student's DAF (Detailed Application Form), with scoring on content, clarity, pace, and follow-ups. Multiple board styles (Academic, Stress, Conversational, Technical, Mixed).
+- Voice Quiz Mode: hands-free verbal MCQ quizzes during commutes — AI asks, student answers by voice, AI scores and explains.
+- Aspirant's Box: monthly physical kit with printed PYQ booklets, answer writing sheets, motivation cards, and SRIAS handwritten strategy notes.
+- Study Pods: groups of 4-5 matched aspirants for peer accountability, group revision, and shared milestones.
+- Human Mentor System: 2x video calls/month with assigned SRIAS mentors + this AI voice mentor 24/7.
+- Geo-fencing features for library/study zone discipline tracking.
+- Mobile app with offline support, push notifications, and widget for daily task.
+- Monthly readiness re-tests that update the AI study plan dynamically.
+- Full admin panel with AI-powered operations for content scheduling, student health monitoring, and intervention triggers.
+- Smart plan that self-corrects based on missed tasks, weak scores, and topic-wise retention decay.
+- Pricing tiers: Core (Rs 2,083/month), Pro (Rs 3,750/month with mentoring), Elite (Rs 6,250/month with 1-on-1 + interview prep).
+
+YOUR BEHAVIOR:
+- Keep answers concise (2-4 sentences) unless asked for detail.
+- Be warm, direct, and encouraging.
+- When asked about features, explain what they do and how they help UPSC aspirants.
+- When asked "what is this" or "tell me about GS 360", give a compelling 3-4 line pitch.
+- When users ask UPSC subject doubts, help with clear explanations and mention PYQ relevance.
+- Always remind users this is a demo and the full product has even deeper capabilities.
+- Never make up data — if you don't know a specific stat, say so.
+- When you receive CONTEXT blocks in the conversation, use that information to answer accurately. These are retrieved from the official GS 360 product documents. Always prefer context-provided facts over your general knowledge.
+
+PROPRIETARY LLM ROADMAP:
+GS 360 is currently powered by OpenAI and Anthropic APIs. However, the long-term strategic roadmap includes building a proprietary UPSC-specialized LLM. This is essential because: (1) A custom LLM trained on 25 years of UPSC PYQs, SRIAS teaching methodology, topper answer patterns, and NCERT/standard textbooks will dramatically outperform general-purpose models for UPSC-specific tasks. (2) Owning the model means controlling costs at scale — no per-token API fees for thousands of concurrent students. (3) A proprietary model enables unique features competitors cannot replicate: instant rubric-calibrated answer scoring, PYQ pattern prediction, personalized difficulty calibration, and voice tutoring that perfectly mimics the SRIAS teaching style. (4) Data moat — every student interaction, answer evaluation, and revision pattern becomes training data that makes the model smarter. Competitors using generic APIs cannot build this advantage. (5) Full control over latency, uptime, and data privacy — critical for exam-day simulations and proctored tests. The phased approach: Phase 1 (current) — API-powered AI features to validate product-market fit. Phase 2 — Fine-tune open-source models (Llama/Mistral) on SRIAS content + student interaction data. Phase 3 — Full proprietary model deployed on owned infrastructure, becoming the AI backbone for all GS 360 features. This is the path to market control — the platform that owns the best UPSC AI wins.`}
+];
+
+// ===== SECURE KEY MANAGEMENT =====
+// Key lives in memory only — never localStorage. sessionStorage is opt-in (tab lifetime).
+// On page refresh without sessionStorage, user must re-enter key.
+let _oaiKey = '';
+
+function getOpenAiKey(){
+  if(_oaiKey) return _oaiKey;
+  // Fall back to sessionStorage (tab-scoped, cleared on close)
+  const sk = sessionStorage.getItem('gs360_sk');
+  if(sk){ _oaiKey = sk; return sk; }
+  // Migrate from old localStorage if present (one-time)
+  const old = localStorage.getItem('gs360_openai_key');
+  if(old){
+    _oaiKey = old;
+    sessionStorage.setItem('gs360_sk', old);
+    localStorage.removeItem('gs360_openai_key'); // purge from disk
+    return old;
+  }
+  return '';
 }
 
-const voiceScripts = {
-  plan:`Today's plan has 4 tasks. First: Read NCERT Polity, chapters 6 and 7, focusing on Fundamental Rights. This is high priority — 90 minutes. Second: Attempt 25 Economy Previous Year Questions from 2018 to 2023. Third: Write a 250-word answer on the Role of Civil Society in Governance — this is critical for Mains. Fourth: Quick revision of Revolt of 1857 flash notes — 20 minutes only. Complete in order. No skipping.`,
-  brief:`Good morning Arjun! Today is your 147th day of preparation. You are on a 12-day streak — do not break it. Your accuracy this week is 72 percent, which is improving. However, Indian Economy at only 38 percent is a serious concern — it appears in almost every Prelims paper. Today, prioritize the economy PYQs. Your readiness meter stands at 61 percent. If you stay consistent, the system projects 82 percent readiness by exam day. You can do this. Begin now.`,
-  weak:`Attention: Your Indian Economy accuracy has fallen to 38 percent over the last 15 attempts. This topic has appeared in 4 out of 5 recent UPSC Prelims papers. Topics like GDP concepts, Monetary Policy, and Banking are frequently asked. I strongly recommend scheduling an additional 45-minute session on Indian Economy today. A mentor session has also been flagged. Additionally, Environment and Ecology at 45 percent needs attention. Polity at 78 percent is strong — maintain it.`,
-  motivation:`Arjun, hear this. Every IAS officer who cleared this exam had days of doubt, days of failure, and days where quitting felt easier than continuing. The difference between those who clear and those who don't is not intelligence — it is consistency. You are on day 147. You have studied 312 hours. You have attempted 1840 questions. That is not luck, that is work. UPSC does not reward the most brilliant — it rewards the most prepared. Today, close everything, open your books, and do the work. One task at a time. Let's go.`,
-  revision:`Revision alert! Fundamental Rights, last studied 8 days ago, has dropped to 42 percent retention. Articles 12 through 35 must be reviewed today — urgent priority. Revolt of 1857, studied 5 days ago, at 61 percent — due today. Agriculture and MSP, studied 3 days ago, at 74 percent — optional. Remember: UPSC tests what you remember on exam day, not what you studied once. Spaced repetition is not optional — it is the strategy. Schedule at least one revision task every single day.`
-};
+function saveOpenAiKey(){
+  const input = document.getElementById('openai-key-input');
+  const raw = input.value.trim();
+  if(!raw){ alert('Please enter your OpenAI API key.'); return; }
+  // Basic format validation
+  if(!raw.startsWith('sk-') || raw.length < 20){
+    alert('That doesn\'t look like a valid OpenAI key (should start with sk-)');
+    return;
+  }
+  // Store in memory
+  _oaiKey = raw;
+  // Store in sessionStorage (tab lifetime only — not persisted to disk)
+  sessionStorage.setItem('gs360_sk', raw);
+  // Clear input immediately — key must not sit in DOM
+  input.value = '•••••' + raw.slice(-4);
+  input.disabled = true;
+  const bar = document.getElementById('api-key-bar');
+  bar.classList.add('saved');
+  // Add reset button
+  if(!bar.querySelector('.reset-key')){
+    const rb = document.createElement('button');
+    rb.className = 'reset-key';
+    rb.textContent = 'Reset';
+    rb.onclick = ()=>{
+      _oaiKey = '';
+      sessionStorage.removeItem('gs360_sk');
+      input.value = '';
+      input.disabled = false;
+      bar.classList.remove('saved');
+      rb.remove();
+    };
+    bar.appendChild(rb);
+  }
+  document.getElementById('voice-settings').classList.remove('open');
+  // Start auto-expiry timer
+  startKeyTimer();
+}
 
-function speakText(key){
-  if(!window.speechSynthesis) return alert('Web Speech API not supported in this browser.');
-  window.speechSynthesis.cancel();
-  const text = voiceScripts[key] || key;
-  const utter = new SpeechSynthesisUtterance(text);
-  // Try to pick a female voice
-  const voices = window.speechSynthesis.getVoices();
-  const femaleVoice = voices.find(v=>v.name.toLowerCase().includes('female')||v.name.includes('Samantha')||v.name.includes('Karen')||v.name.includes('Victoria')||v.name.includes('Moira')||v.name.includes('Google UK English Female'));
-  if(femaleVoice) utter.voice = femaleVoice;
-  utter.rate = 0.92;
-  utter.pitch = 1.05;
-  utter.volume = 1;
-  utter.onstart = ()=>{
-    document.getElementById('voice-speaking-bar').classList.add('active');
-    document.getElementById('voice-speaking-label').textContent = key==='plan'?'Reading today\'s plan...':key==='brief'?'Morning briefing...':key==='weak'?'Weak area alert...':key==='motivation'?'Motivational boost...':'Revision reminder...';
-    document.getElementById('voice-fab-btn').classList.add('speaking');
-  };
-  utter.onend = utter.onerror = ()=>{
-    document.getElementById('voice-speaking-bar').classList.remove('active');
-    document.getElementById('voice-fab-btn').classList.remove('speaking');
-  };
-  window.speechSynthesis.speak(utter);
+// Restore from sessionStorage on load (if tab was refreshed)
+(function initApiKey(){
+  const key = getOpenAiKey();
+  if(key){
+    document.getElementById('openai-key-input').value = '•••••' + key.slice(-4);
+    document.getElementById('openai-key-input').disabled = true;
+    document.getElementById('api-key-bar').classList.add('saved');
+    const bar = document.getElementById('api-key-bar');
+    if(!bar.querySelector('.reset-key')){
+      const rb = document.createElement('button');
+      rb.className = 'reset-key';
+      rb.textContent = 'Reset';
+      rb.onclick = ()=>{
+        _oaiKey = '';
+        sessionStorage.removeItem('gs360_sk');
+        document.getElementById('openai-key-input').value = '';
+        document.getElementById('openai-key-input').disabled = false;
+        bar.classList.remove('saved');
+        rb.remove();
+      };
+      bar.appendChild(rb);
+    }
+  }
+})();
+
+// ===== DEMO-SAFE KEY WIPE =====
+// Nuclear wipe — removes key from everywhere, clears all traces
+function nukeAllKeys(){
+  _oaiKey = '';
+  sessionStorage.removeItem('gs360_sk');
+  localStorage.removeItem('gs360_openai_key'); // in case anything remains
+  // Clear UI
+  const input = document.getElementById('openai-key-input');
+  if(input){ input.value = ''; input.disabled = false; }
+  const bar = document.getElementById('api-key-bar');
+  if(bar){ bar.classList.remove('saved'); const rb = bar.querySelector('.reset-key'); if(rb) rb.remove(); }
+  // Stop any playing audio
+  stopVoice();
+  // Clear conversation history (may contain sensitive context)
+  if(typeof v2vConversation !== 'undefined'){
+    const sysMsg = v2vConversation[0];
+    v2vConversation.length = 0;
+    if(sysMsg) v2vConversation.push(sysMsg);
+  }
+  // Clear embedding cache
+  if(typeof ragEmbeddingCache !== 'undefined'){ for(const k in ragEmbeddingCache) delete ragEmbeddingCache[k]; }
+  // Stop timer
+  if(_keyTimerInterval){ clearInterval(_keyTimerInterval); _keyTimerInterval = null; }
+  const timerEl = document.getElementById('key-timer');
+  if(timerEl) timerEl.style.display = 'none';
+  // Visual confirmation
+  document.getElementById('voice-settings').classList.add('open');
+  alert('✓ All keys wiped. Memory, storage, cache — everything cleared.');
+}
+
+// Auto-expiry: key self-destructs after 30 min (demo safety)
+let _keyTimerInterval = null;
+let _keyExpiresAt = 0;
+const KEY_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+function startKeyTimer(){
+  _keyExpiresAt = Date.now() + KEY_TTL_MS;
+  const timerEl = document.getElementById('key-timer');
+  if(timerEl) timerEl.style.display = 'block';
+  if(_keyTimerInterval) clearInterval(_keyTimerInterval);
+  _keyTimerInterval = setInterval(()=>{
+    const remaining = _keyExpiresAt - Date.now();
+    if(remaining <= 0){
+      nukeAllKeys();
+      return;
+    }
+    const mins = Math.floor(remaining / 60000);
+    const secs = Math.floor((remaining % 60000) / 1000);
+    const timerEl = document.getElementById('key-timer');
+    if(timerEl) timerEl.textContent = '⏱ Key expires in ' + mins + ':' + String(secs).padStart(2,'0');
+  }, 1000);
+}
+
+// Keyboard shortcut: Ctrl+Shift+K (or Cmd+Shift+K on Mac) to instant-wipe
+document.addEventListener('keydown', (e)=>{
+  if((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'K'){
+    e.preventDefault();
+    nukeAllKeys();
+  }
+});
+
+// Wipe key from memory when tab/window closes
+window.addEventListener('beforeunload', ()=>{
+  _oaiKey = '';
+  sessionStorage.removeItem('gs360_sk');
+  localStorage.removeItem('gs360_openai_key');
+});
+
+function setVoiceModel(m){ oaiVoiceModel = m; }
+function toggleVoiceSettings(){
+  document.getElementById('voice-settings').classList.toggle('open');
+}
+
+// ===== STATE MACHINE: idle → connecting → listening → thinking → speaking =====
+let voiceState = 'idle';
+
+function setVoiceState(state){
+  voiceState = state;
+  const orb = document.getElementById('siri-orb');
+  const core = document.getElementById('siri-orb-core');
+  const stateEl = document.getElementById('voice-state');
+  orb.setAttribute('data-state', state);
+  stateEl.classList.remove('visible');
+
+  if(state === 'idle'){
+    core.textContent = '🎙';
+    stateEl.textContent = '';
+  } else if(state === 'connecting'){
+    core.textContent = '⏳';
+    stateEl.textContent = 'Connecting...';
+    stateEl.classList.add('visible');
+    orb.setAttribute('data-state', 'thinking'); // reuse thinking animation
+  } else if(state === 'listening'){
+    core.textContent = '🟢';
+    stateEl.textContent = 'Live — speak anytime';
+    stateEl.classList.add('visible');
+  } else if(state === 'thinking'){
+    core.textContent = '💭';
+    stateEl.textContent = 'Processing...';
+    stateEl.classList.add('visible');
+  } else if(state === 'speaking'){
+    core.textContent = '🔊';
+    stateEl.textContent = '';
+  }
+}
+
+// ===== WebRTC REALTIME SESSION =====
+let _rtcPeer = null;
+let _rtcDataChannel = null;
+let _rtcAudioEl = null;
+let _rtcStream = null;
+let _rtcSessionReady = false;
+
+// Build instructions from v2vConversation system prompt
+function _getRealtimeInstructions(){
+  if(v2vConversation.length > 0 && v2vConversation[0].role === 'system'){
+    return v2vConversation[0].content;
+  }
+  return 'You are a helpful assistant for GS 360, a UPSC preparation platform.';
+}
+
+// ===== MAIN TAP HANDLER =====
+function voiceTap(){
+  document.getElementById('voice-settings').classList.remove('open');
+
+  // If session is live, disconnect
+  if(_rtcPeer && _rtcSessionReady){
+    disconnectRealtime();
+    return;
+  }
+  // If connecting, do nothing
+  if(voiceState === 'connecting') return;
+
+  const key = getOpenAiKey();
+  if(!key){
+    document.getElementById('voice-settings').classList.add('open');
+    return;
+  }
+  connectRealtime();
+}
+
+// ===== CONNECT: WebRTC to OpenAI Realtime =====
+async function connectRealtime(){
+  const key = getOpenAiKey();
+  if(!key) return;
+
+  setVoiceState('connecting');
+
+  try {
+    // 1. Create peer connection
+    _rtcPeer = new RTCPeerConnection();
+
+    // 2. Set up remote audio playback
+    _rtcAudioEl = document.createElement('audio');
+    _rtcAudioEl.autoplay = true;
+    _rtcPeer.ontrack = (e) => {
+      _rtcAudioEl.srcObject = e.streams[0];
+    };
+
+    // 3. Get mic and add track
+    _rtcStream = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: true, noiseSuppression: true }
+    });
+    _rtcPeer.addTrack(_rtcStream.getTracks()[0]);
+
+    // 4. Create data channel for events
+    _rtcDataChannel = _rtcPeer.createDataChannel('oai-events');
+    _rtcDataChannel.addEventListener('open', _onDataChannelOpen);
+    _rtcDataChannel.addEventListener('message', _onDataChannelMessage);
+
+    // 5. Create SDP offer
+    const offer = await _rtcPeer.createOffer();
+    await _rtcPeer.setLocalDescription(offer);
+
+    // 6. Build session config — include RAG knowledge in instructions
+    const ragKnowledge = ragChunks.map(c => c.text).join('\n\n');
+    const fullInstructions = _getRealtimeInstructions() +
+      '\n\n[PRODUCT KNOWLEDGE BASE — use this to answer specific questions about GS 360]\n' +
+      ragKnowledge;
+
+    const sessionConfig = JSON.stringify({
+      type: 'realtime',
+      model: 'gpt-4o-realtime-preview',
+      voice: oaiVoiceModel,
+      instructions: fullInstructions,
+      turn_detection: {
+        type: 'server_vad',
+        threshold: 0.5,
+        prefix_padding_ms: 300,
+        silence_duration_ms: 700
+      },
+      input_audio_transcription: {
+        model: 'gpt-4o-mini-transcribe'
+      }
+    });
+
+    // 7. POST SDP + session to /v1/realtime/calls (unified interface)
+    const fd = new FormData();
+    fd.set('sdp', offer.sdp);
+    fd.set('session', sessionConfig);
+
+    const resp = await fetch('https://api.openai.com/v1/realtime/calls', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + key },
+      body: fd
+    });
+
+    if(!resp.ok){
+      const errText = await resp.text();
+      console.error('Realtime session error:', resp.status, errText);
+      disconnectRealtime();
+      alert('Failed to connect to Realtime API. Check your API key and model access.');
+      return;
+    }
+
+    // 8. Set answer SDP
+    const answerSdp = await resp.text();
+    await _rtcPeer.setRemoteDescription({ type: 'answer', sdp: answerSdp });
+
+    _rtcSessionReady = true;
+    setVoiceState('listening');
+
+    // Handle connection state changes
+    _rtcPeer.onconnectionstatechange = () => {
+      if(_rtcPeer?.connectionState === 'disconnected' || _rtcPeer?.connectionState === 'failed'){
+        disconnectRealtime();
+      }
+    };
+
+  } catch(e){
+    console.error('WebRTC connect failed:', e);
+    disconnectRealtime();
+    alert('Could not start voice session: ' + (e.message || e));
+  }
+}
+
+// Data channel opened — session is live
+function _onDataChannelOpen(){
+  console.log('Realtime data channel open');
+}
+
+// Handle server events
+function _onDataChannelMessage(e){
+  try {
+    const event = JSON.parse(e.data);
+    switch(event.type){
+      case 'input_audio_buffer.speech_started':
+        setVoiceState('listening');
+        // Interrupt current response if model is speaking
+        if(currentAudio){ currentAudio.pause(); currentAudio = null; }
+        break;
+      case 'input_audio_buffer.speech_stopped':
+        setVoiceState('thinking');
+        break;
+      case 'response.created':
+        setVoiceState('thinking');
+        break;
+      case 'response.output_item.added':
+        if(event.item?.type === 'message' && event.item?.role === 'assistant'){
+          setVoiceState('speaking');
+        }
+        break;
+      case 'response.audio.delta':
+        if(voiceState !== 'speaking') setVoiceState('speaking');
+        break;
+      case 'response.audio.done':
+      case 'response.done':
+        // Back to listening — session stays live
+        if(_rtcSessionReady) setVoiceState('listening');
+        break;
+      case 'error':
+        console.error('Realtime error:', event.error);
+        break;
+      default:
+        // Ignore other events
+        break;
+    }
+  } catch(err){
+    console.error('Data channel parse error:', err);
+  }
+}
+
+// ===== DISCONNECT =====
+function disconnectRealtime(){
+  _rtcSessionReady = false;
+  if(_rtcDataChannel){
+    try { _rtcDataChannel.close(); } catch(e){}
+    _rtcDataChannel = null;
+  }
+  if(_rtcPeer){
+    try { _rtcPeer.close(); } catch(e){}
+    _rtcPeer = null;
+  }
+  if(_rtcStream){
+    _rtcStream.getTracks().forEach(t => t.stop());
+    _rtcStream = null;
+  }
+  if(_rtcAudioEl){
+    _rtcAudioEl.srcObject = null;
+    _rtcAudioEl = null;
+  }
+  setVoiceState('idle');
+}
+
+// ===== OpenAI TTS (used by speakText / speakAiNotes) =====
+async function openaiTTS(text){
+  const key = getOpenAiKey();
+  if(!key) return fallbackSpeak(text);
+  try {
+    const resp = await fetch('https://api.openai.com/v1/audio/speech', {
+      method:'POST',
+      headers:{
+        'Authorization': 'Bearer ' + key,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'tts-1-hd',
+        input: text.substring(0, 4096),
+        voice: oaiVoiceModel,
+        response_format: 'mp3',
+        speed: 1.0
+      })
+    });
+    if(!resp.ok) return fallbackSpeak(text);
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    return new Promise((resolve)=>{
+      if(currentAudio){ currentAudio.pause(); currentAudio = null; }
+      const audio = new Audio(url);
+      currentAudio = audio;
+      audio.onended = audio.onerror = ()=>{
+        URL.revokeObjectURL(url);
+        currentAudio = null;
+        resolve();
+      };
+      audio.play().catch(()=>{ currentAudio = null; resolve(); });
+    });
+  } catch(e){
+    console.error('TTS failed:', e);
+    return fallbackSpeak(text);
+  }
+}
+
+function fallbackSpeak(text){
+  return new Promise((resolve)=>{
+    if(!window.speechSynthesis){ resolve(); return; }
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices();
+    const femaleVoice = voices.find(v=>v.name.toLowerCase().includes('female')||v.name.includes('Samantha')||v.name.includes('Karen')||v.name.includes('Victoria'));
+    if(femaleVoice) utter.voice = femaleVoice;
+    utter.rate = 0.92; utter.pitch = 1.05;
+    utter.onend = utter.onerror = ()=>{ resolve(); };
+    window.speechSynthesis.speak(utter);
+  });
 }
 
 function stopVoice(){
-  window.speechSynthesis.cancel();
-  document.getElementById('voice-speaking-bar').classList.remove('active');
-  document.getElementById('voice-fab-btn').classList.remove('speaking');
+  if(currentAudio){ currentAudio.pause(); currentAudio.currentTime=0; currentAudio=null; }
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  disconnectRealtime();
 }
 
-// Load voices async (some browsers need this)
-window.speechSynthesis.onvoiceschanged = ()=>{ window.speechSynthesis.getVoices(); };
+// Legacy compatibility
+function speakText(text){ openaiTTS(text); }
+
+// ===== RAG KNOWLEDGE BASE (Product Documents) =====
+const ragChunks = [
+  // WHAT IS GS 360
+  {id:'what_is',tags:'what is gs360 gs 360 about product platform overview',text:'GS 360 is India\'s first execution-first UPSC preparation platform, powered by Shubhra Ranjan IAS (SRIAS). Core philosophy: "Stop Watching. Start Proving." It is NOT a content warehouse — it is a performance-driven ecosystem that bridges the gap between online convenience and offline coaching intensity. The platform shifts students from passive content consumption to active, measurable performance. Every feature reduces decision fatigue, enforces active recall, and produces measurable score improvement across General Studies.'},
+  // THE PROBLEM
+  {id:'problem',tags:'problem why broken coaching failure gap issue',text:'The UPSC prep market is saturated with content — 10,000+ hours of free/paid videos, 50+ daily CA sources, dozens of test series. Yet selection rate is under 0.2%. Five critical failures: (1) Passive content delivery — students watch but never write. (2) Zero accountability — no daily structure, students procrastinate. (3) No revision enforcement — 80% of learning forgotten in 7 days (Ebbinghaus curve). (4) Generic feedback — test series give ranks but no actionable improvement. (5) The "Delhi Gap" — online students lack proctored pressure, physical answer writing, and peer competition of offline coaching.'},
+  // VISION
+  {id:'vision',tags:'vision mission goal beliefs core',text:'GS 360 Vision: "To be India\'s first UPSC preparation system where every student can prove, with data, that they are getting better every single day." Core beliefs: Execution > Information, Discipline > Motivation, Depth > Breadth, PYQ > Prediction, Offline Intensity with Online Convenience. Target audience: Serious repeaters (2nd/3rd attempt), working professionals, Tier 2/3 city aspirants, and PSIR optional students.'},
+  // COMMAND CENTER
+  {id:'command_center',tags:'command center dashboard daily tasks mission briefing',text:'The Daily Command Center is the first screen students see each morning. It is a mission briefing, not a dashboard with 50 options. Features: 2-3 specific daily topics assigned, one mandatory answer writing task with 20-min timer, revision nudges based on spaced repetition (Day 1/7/15/30), PYQ mapping for every topic with frequency tags, and current affairs connector linking news to GS topics. Example: "Today\'s Mission: Read NCERT Polity Ch.6-7 (Fundamental Rights, PYQ asked 18 times), Write an answer on Article 19 vs Article 25, Revision recall for Mauryan Admin (Day 7)."'},
+  // PYQ ENGINE
+  {id:'pyq',tags:'pyq previous year questions intelligence engine pattern prediction',text:'PYQ Intelligence Engine: Analytical engine covering 25 years of UPSC past papers. Features: Probability tags (HIGH/MEDIUM/LOW per topic), Pattern breakdown (Static Factual, CA-Based, Analytical, Comparative), Trend prediction using ML on 25-year data, PYQ-linked notes making study immediately purposeful, Year-wise evolution timelines. Example for Fundamental Rights: asked in 18/25 years, 55% analytical questions, predicted 2026 focus on Digital Rights + Privacy (Art.21) + State Surveillance.'},
+  // REVISION ENGINE
+  {id:'revision',tags:'revision engine spaced repetition retention forgetting recall',text:'Automated Revision Engine fights the Ebbinghaus Forgetting Curve (students forget 56% within 1 hour, 66% in 1 day, 75% in 6 days). Features: Recall cycles at Day 1/7/15/30, active recall tests (MCQs + short answers, not re-reading), weak area detection (below 50% flagged for re-entry), revision streaks with recovery tasks, adaptive spaced repetition algorithm. Example: Study Mauryan Admin Day 0 → Day 1 recall 4/5 PASS → Day 7 recall 3/5 WARNING → Day 15 improved 4/5 → Day 30 final check 5/5 RETAINED → next recall at Day 90.'},
+  // ANSWER WRITING
+  {id:'answer_writing',tags:'answer writing mains rubric scoring evaluation feedback',text:'Smart Answer Writing System: Daily answer writing is non-negotiable. Rubric scoring across 5 dimensions: Structure (Intro/Body/Conclusion), Content Accuracy, Analytical Depth, Diagrams & Examples (Value Addition), Word Limit & Time compliance. AI provides instant feedback within 2 minutes on scanned handwritten answers. Topper benchmarking shows model answers for comparison. 30-day score trend graph. Weekly deep evaluation by human mentor with video review. Physical UPSC-standard answer booklets are shipped monthly (Aspirant\'s Box).'},
+  // ASPIRANT'S BOX
+  {id:'aspirants_box',tags:'aspirant box physical shipment booklet kit welcome',text:'The Aspirant\'s Box: Physical monthly shipment to every student. Includes: UPSC-standard answer booklets (10/month), OMR sheets (20/month), micro-revision cards per subject, blank maps for geography practice, exam stationery kit (pens, rulers — same tools as real exam). Plus a Welcome Kit with 30+ books and materials at enrollment. This recreates the physical discipline of offline coaching at home.'},
+  // PROCTORING
+  {id:'proctoring',tags:'proctor exam simulation webcam live test proctored',text:'Live AI Proctoring: Mandatory webcam for all tests. AI detects face not visible, multiple faces, phone usage, tab switching. Strict time limits — tests cannot be paused. Full exam-day simulation: 3-hour GS papers, 9:30 AM start, no breaks. Violation reports affect leaderboard. Recreates real UPSC exam pressure at home.'},
+  // SYNCHRONIZED DISCIPLINE
+  {id:'sync',tags:'synchronized live drill daily discipline competition leaderboard',text:'Synchronized Daily Discipline: Everyone does the same task at the same time. 8 AM: Command Center drops. 10 AM: Live Mapping Drill (4,200 students simultaneously). 2 PM: Live Answer Writing Hour. 6 PM: PYQ Analysis. 9 PM: Revision Recall Test. Daily/weekly/monthly leaderboards recreate the peer pressure of Old Rajinder Nagar coaching hubs.'},
+  // AI FEATURES
+  {id:'ai_features',tags:'ai artificial intelligence claude gpt notes generator cowork agent',text:'AI-Powered Features: AI Notes Generator (Claude API) creates structured UPSC notes, mind maps, Q&A, summaries, and Mains answer frameworks. AI Cowork Agent researches uploaded documents (Budget, Economic Survey) and generates UPSC-angle analysis. AI Answer Scrutiny scans handwritten answers via OCR and scores with rubric. AI Voice Bot (this assistant) provides 24/7 voice doubts, quizzes, briefings, motivation, and interview simulation.'},
+  // VOICE BOT
+  {id:'voice_bot',tags:'voice bot assistant speech talk mic conversation interview',text:'AI Voice Bot: 24/7 UPSC voice companion. Capabilities: Doubt resolution with PYQ references, Voice Quiz Mode (hands-free MCQs during commute), Topic explanations (2-3 min audio), Daily briefings (reads Command Center tasks), Current Affairs audio, Answer outline helper, Interview simulation (25-min mock with DAF-based questions and board styles), Revision recall testing, Motivation and check-ins, Study timer management. Supports Hindi + English + Hinglish in production.'},
+  // INTERVIEW PREP
+  {id:'interview',tags:'interview simulation mock board daf personality test',text:'AI Interview Simulator: Full 25-minute voice mock interviews. AI generates 50+ questions from student\'s DAF (education, work, hobbies, home state, optional subject, current affairs). Evaluates: content quality, clarity, speaking pace, confidence, use of examples, balanced perspective. Board styles: Academic, Stress (aggressive/rapid-fire), Conversational, Technical, Mixed. Post-session report with scoring, strongest/weakest answers, speaking analysis, and practice recommendations.'},
+  // COMPETITOR COMPARISON
+  {id:'competitors',tags:'competitor comparison drishti vision unacademy vs versus better',text:'Competitive positioning: GS 360 vs Drishti IAS vs Vision IAS vs Unacademy. GS 360 rates 5/5 on: Daily Structure, Answer Evaluation, Revision System, PYQ Integration, Physical Materials, Welcome Kit, AI Feedback, AI Voice Bot, Progress Dashboard, Plan Customization, PSIR-GS Synergy, Peer Competition. Competitors score 0-3/5 on these. GS 360 is moderate content (3/5) but extreme execution (5/5). Strategy: not to outproduce but to outperform in outcomes.'},
+  // DELHI GAP
+  {id:'delhi_gap',tags:'delhi gap offline online bridge remote tier 2 3',text:'The Delhi Gap: Measurable performance difference between Delhi coaching students vs remote students. Delhi: writes 3-4 graded answers daily, weekly proctored tests, daily peer discussions, physical booklets, fixed 8-hour schedule, visible competition, mentor access within hours. Remote: 0-1 ungraded answers/week, self-administered tests, isolation, rough paper, flexible=undisciplined, no benchmark, generic doubt resolution. GS 360\'s entire design closes this gap with digital-physical hybrid solutions.'},
+  // PRICING
+  {id:'pricing',tags:'pricing price cost plan tier core pro elite money fee',text:'Pricing tiers: Core at Rs 2,083/month (Rs 24,999/year) — Daily Command Center, AI study plan, revision engine, PYQ bank, digital tests. Pro at Rs 3,750/month (Rs 44,999/year) — everything in Core plus 2x monthly mentor calls, Aspirant\'s Box, advanced analytics. Elite at Rs 6,250/month (Rs 74,999/year) — everything in Pro plus 1-on-1 weekly mentor sessions, interview preparation, priority human answer evaluation.'},
+  // STUDY PODS & MENTORS
+  {id:'pods_mentors',tags:'study pod group buddy mentor human call support',text:'Study Pods: Groups of 4-5 matched aspirants for peer accountability, group revision, and shared milestones. Pod vs Pod weekly competition. Human Mentor System: 2x video calls per month with assigned SRIAS mentors for strategy, doubt resolution, and emotional support. AI Voice Mentor available 24/7 for instant help between human sessions.'},
+  // ONBOARDING
+  {id:'onboarding',tags:'onboarding first day start begin trial free sign up',text:'Onboarding (Day 0-7): Day 0 — Welcome video from Shubhra Ma\'am, profile setup, AI generates personalized study plan. Day 1 — First Command Center with 3 light tasks (learn, write, recall) to build confidence. Day 2-3 — Build rhythm. Day 4-5 — Subject heatmap revealed based on actual performance. Day 6-7 — Full daily flow, buddy matching, first performance snapshot. Free 7-day trial available with no card required. First 7 days determine whether student stays 12 months or churns.'},
+  // ROADMAP
+  {id:'roadmap',tags:'roadmap phase plan timeline future launch scale',text:'Implementation roadmap: Phase 1 MVP (Month 1-3) — Core Command Center, AI notes, basic revision, test system, mobile app beta. Phase 2 Scale (Month 4-6) — Full proctoring, Aspirant\'s Box shipping, study pods, mentor system, advanced analytics. Phase 3 Ecosystem (Month 7-12) — Interview simulator, proprietary LLM fine-tuning, WhatsApp integration, geo-fencing, smart speaker support, physical test centers.'},
+  // PSIR CROSSOVER
+  {id:'psir',tags:'psir political science optional crossover srias shubhra ranjan',text:'SRIAS PSIR-GS Crossover: Unique structural advantage. PSIR optional has 40-60% content overlap with GS2 (Governance, Constitution, Polity, IR), GS4 (Ethics, political thinkers), and Essay (political philosophy). Auto-mapping engine shows linked topics when studying PSIR. Dual-benefit notes tagged for both PSIR and GS. Cross-paper practice questions. Time savings calculator shows hours saved. No other platform offers this.'},
+  // PROPRIETARY LLM
+  {id:'llm_roadmap',tags:'llm own model proprietary custom ai fine tune train data moat',text:'Proprietary LLM Roadmap: Currently powered by OpenAI + Anthropic APIs. Long-term plan: build a UPSC-specialized LLM trained on 25 years of PYQs, SRIAS methodology, topper answer patterns, NCERT/standard textbooks. Benefits: (1) Outperform generic models on UPSC tasks. (2) Eliminate per-token API costs at scale. (3) Enable unique features competitors can\'t replicate — instant rubric scoring, PYQ pattern prediction, personalized difficulty, SRIAS-style voice tutoring. (4) Data moat — every student interaction becomes training data. (5) Full control over latency, uptime, privacy. Phases: Current = API validation → Fine-tune open-source (Llama/Mistral) on SRIAS data → Full proprietary model on owned infra. The platform that owns the best UPSC AI wins the market.'},
+  // CURRENT AFFAIRS
+  {id:'current_affairs',tags:'current affairs news newspaper magazine daily editorial',text:'Current Affairs Hub: Daily newspaper analysis mapped to UPSC syllabus. AI extracts UPSC-relevant news, tags to GS papers, creates mini-notes. Monthly CA magazine (physical + digital). Editorial analysis with probable question framing. Integration with Command Center — today\'s news linked to today\'s study topic. In production: WhatsApp delivery of daily CA summary every morning.'},
+  // DASHBOARD & ANALYTICS
+  {id:'dashboard',tags:'dashboard performance analytics score chart graph readiness',text:'Performance Dashboard: Multi-dimensional tracking beyond just test ranks. Metrics: Subject-wise accuracy heatmaps, week-over-week trends, answer writing score progression, revision retention rates, daily streak and consistency, exam readiness projection (percentage + probability). Mains readiness broken down by paper. 30-day rolling trends. Comparison with peer cohort. Projection engine estimates final readiness by exam date based on current trajectory.'},
+  // THIS DEMO
+  {id:'demo',tags:'demo sample prototype showcase example dummy',text:'This is a live product demo of GS 360. What you see: Full UI of the Daily Command Center, AI Notes Generator (functional with Claude API), Performance Dashboard, Testing System, Plan View, AI Cowork Agent, and this AI Voice Bot. Sample data: Student profile "Arjun" with 147-day streak, 72% weekly accuracy, 61% readiness meter. All screens are interactive. In full production: real student data, WhatsApp integration, Hindi voice, physical shipments, human mentors, interview simulator, mobile app, and the proprietary UPSC LLM.'}
+];
+
+// Embedding cache
+let ragEmbeddingCache = {};
+
+async function getEmbedding(text, key){
+  try {
+    const resp = await fetch('https://api.openai.com/v1/embeddings', {
+      method:'POST',
+      headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
+      body:JSON.stringify({model:'text-embedding-3-small',input:text})
+    });
+    if(!resp.ok) return null;
+    const data = await resp.json();
+    return data.data?.[0]?.embedding || null;
+  } catch(e){ return null; }
+}
+
+function cosineSim(a,b){
+  let dot=0, magA=0, magB=0;
+  for(let i=0;i<a.length;i++){ dot+=a[i]*b[i]; magA+=a[i]*a[i]; magB+=b[i]*b[i]; }
+  return dot/(Math.sqrt(magA)*Math.sqrt(magB));
+}
+
+// Keyword fallback search (no API needed)
+function keywordSearch(query, topK=3){
+  const q = query.toLowerCase();
+  const scored = ragChunks.map(c=>{
+    const words = c.tags.split(' ');
+    let score = 0;
+    words.forEach(w=>{ if(q.includes(w) && w.length>2) score += 1; });
+    // Boost partial matches
+    const qWords = q.split(/\s+/);
+    qWords.forEach(qw=>{ if(qw.length>2 && c.tags.includes(qw)) score += 0.5; if(qw.length>2 && c.text.toLowerCase().includes(qw)) score += 0.3; });
+    return {chunk:c, score};
+  });
+  scored.sort((a,b)=>b.score-a.score);
+  return scored.slice(0,topK).filter(s=>s.score>0).map(s=>s.chunk);
+}
+
+async function ragRetrieve(query, topK=3){
+  const key = getOpenAiKey();
+  // Try embedding search first
+  if(key){
+    try {
+      // Embed all chunks if not cached
+      if(Object.keys(ragEmbeddingCache).length === 0){
+        const allTexts = ragChunks.map(c=>c.tags+' '+c.text.substring(0,200));
+        const resp = await fetch('https://api.openai.com/v1/embeddings', {
+          method:'POST',
+          headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
+          body:JSON.stringify({model:'text-embedding-3-small',input:allTexts})
+        });
+        if(resp.ok){
+          const data = await resp.json();
+          data.data.forEach((d,i)=>{ ragEmbeddingCache[ragChunks[i].id] = d.embedding; });
+        }
+      }
+      // Embed query
+      if(Object.keys(ragEmbeddingCache).length > 0){
+        const qEmb = await getEmbedding(query, key);
+        if(qEmb){
+          const scored = ragChunks.map(c=>({
+            chunk:c,
+            score: ragEmbeddingCache[c.id] ? cosineSim(qEmb, ragEmbeddingCache[c.id]) : 0
+          }));
+          scored.sort((a,b)=>b.score-a.score);
+          return scored.slice(0,topK).map(s=>s.chunk);
+        }
+      }
+    } catch(e){ console.warn('Embedding search failed, falling back to keywords', e); }
+  }
+  // Fallback: keyword search
+  return keywordSearch(query, topK);
+}
+
+// Load voices async (some browsers need this for fallback)
+if(window.speechSynthesis){
+  window.speechSynthesis.onvoiceschanged = ()=>{ window.speechSynthesis.getVoices(); };
+}
 
 // ===== AI NOTES (Claude API) =====
 let aiGenCount = 0, aiSavedCount = 0, aiHistory = [];
@@ -2467,11 +3076,8 @@ function saveAiToNotes(){
 function speakAiNotes(){
   const text = document.getElementById('ai-output').textContent;
   if(!text||text.includes('Enter a topic')) return;
-  // Strip symbols for speech
-  const clean = text.replace(/[📌🔑📝📰⚡✅🌐├└│🎯💡⟳✦📋⚠🔢📝]/g,'').replace(/\n+/g,' ').substring(0,1000);
-  speakText(clean);
-  voicePanelOpen=true;
-  document.getElementById('voice-panel').classList.add('open');
+  const clean = text.replace(/[📌🔑📝📰⚡✅🌐├└│🎯💡⟳✦📋⚠🔢📝]/g,'').replace(/\n+/g,' ').substring(0,4000);
+  openaiTTS(clean);
 }
 
 // ===== PLAN VIEW =====
