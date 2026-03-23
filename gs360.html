@@ -75,7 +75,6 @@ body.light .command-banner{background:linear-gradient(135deg,rgba(30,75,155,.06)
 body.light .alert-item.warn{background:rgba(217,119,6,.04);border-color:rgba(217,119,6,.18);}
 body.light .alert-item.danger{background:rgba(220,38,38,.04);border-color:rgba(220,38,38,.18);}
 body.light .alert-item.info{background:rgba(30,75,155,.04);border-color:rgba(30,75,155,.18);}
-body.light .siri-orb-core{box-shadow:inset 0 1px 2px rgba(255,255,255,.6), 0 2px 12px rgba(0,0,0,.15);}
 body.light .progress-wrap{background:#D0DCEE;}
 body.light .perf-bar-wrap{background:#D0DCEE;}
 body.light .task-check{border-color:var(--border2);}
@@ -371,10 +370,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .chart-wrap{position:relative;width:100%;height:200px;}
 
 /* CA TICKER */
-.ticker{background:rgba(232,160,32,.06);border:1px solid rgba(232,160,32,.15);border-radius:4px;padding:8px 14px;display:flex;align-items:center;gap:10px;margin-bottom:16px;overflow:hidden;}
-.ticker-label{font-size:10px;font-family:var(--font-mono);color:var(--gold);letter-spacing:1px;white-space:nowrap;flex-shrink:0;}
-.ticker-text{font-size:12px;color:var(--text2);white-space:nowrap;animation:scroll-text 20s linear infinite;}
-@keyframes scroll-text{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}};
+.ticker{background:rgba(232,160,32,.06);border:1px solid rgba(232,160,32,.15);border-radius:4px;padding:8px 14px;display:flex;align-items:center;gap:0;margin-bottom:16px;overflow:hidden;position:relative;}
+.ticker-label{font-size:10px;font-family:var(--font-mono);color:var(--gold);letter-spacing:1px;white-space:nowrap;flex-shrink:0;padding-right:12px;position:relative;z-index:2;background:inherit;}
+.ticker-track{flex:1;overflow:hidden;position:relative;min-width:0;}
+.ticker-text{font-size:12px;color:var(--text2);white-space:nowrap;display:inline-block;animation:scroll-text 25s linear infinite;}
+@keyframes scroll-text{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
 
 /* MODAL overlay trick */
 .modal-bg{background:rgba(0,0,0,.7);border-radius:6px;display:flex;align-items:center;justify-content:center;padding:20px;min-height:200px;}
@@ -394,46 +394,85 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 /* VOICE — Siri Orb + S2S */
 .voice-fab{position:fixed;bottom:28px;right:28px;z-index:999;display:flex;flex-direction:column;align-items:center;gap:6px;}
 
-/* === SIRI ORB === */
-.siri-orb{width:68px;height:68px;border-radius:50%;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+/* === SIRI ORB — Premium fluid animation === */
+.siri-orb{width:88px;height:88px;border-radius:50%;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center;transition:transform .25s cubic-bezier(.4,0,.2,1);-webkit-tap-highlight-color:transparent;}
 .siri-orb:hover{transform:scale(1.06);}
-/* Dark glass center */
-.siri-orb-core{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 35%, rgba(60,60,80,.95), rgba(20,20,30,.98));position:relative;z-index:2;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:inset 0 1px 2px rgba(255,255,255,.1), 0 2px 12px rgba(0,0,0,.4);}
-body.light .siri-orb-core{background:radial-gradient(circle at 35% 35%, rgba(220,225,240,.95), rgba(200,208,230,.98));box-shadow:inset 0 1px 2px rgba(255,255,255,.6), 0 2px 12px rgba(0,0,0,.15);}
-/* Animated glow ring behind the core */
-.siri-orb-glow{position:absolute;inset:-6px;border-radius:50%;z-index:1;opacity:0.4;transition:opacity .3s, filter .3s;filter:blur(10px);}
-/* Idle: subtle warm glow */
-.siri-orb[data-state="idle"] .siri-orb-glow{background:conic-gradient(from 0deg, rgba(232,160,32,.5), rgba(232,160,32,.2), rgba(232,160,32,.5));opacity:0.35;animation:siri-idle 4s ease-in-out infinite;}
-/* Listening: vibrant multi-color like Siri */
-.siri-orb[data-state="listening"] .siri-orb-glow{background:conic-gradient(from 0deg, #ff6b6b, #ee5a24, #e84393, #6c5ce7, #0984e3, #00b894, #fdcb6e, #ff6b6b);opacity:0.85;filter:blur(14px);animation:siri-spin 1.8s linear infinite, siri-breathe 0.8s ease-in-out infinite;}
-.siri-orb[data-state="listening"] .siri-orb-core{box-shadow:inset 0 1px 2px rgba(255,255,255,.15), 0 0 20px rgba(238,90,36,.3);}
-/* Thinking: rotating cool gradient */
-.siri-orb[data-state="thinking"] .siri-orb-glow{background:conic-gradient(from 0deg, #6c5ce7, #0984e3, #00b894, #6c5ce7);opacity:0.7;filter:blur(12px);animation:siri-spin 2.5s linear infinite, siri-pulse 1.2s ease-in-out infinite;}
-/* Speaking: warm pulsing glow */
-.siri-orb[data-state="speaking"] .siri-orb-glow{background:conic-gradient(from 0deg, #fdcb6e, #e17055, #fd79a8, #a29bfe, #55efc4, #fdcb6e);opacity:0.8;filter:blur(16px);animation:siri-spin 3s linear infinite, siri-speak-pulse 0.5s ease-in-out infinite;}
-.siri-orb[data-state="speaking"] .siri-orb-core{box-shadow:inset 0 1px 2px rgba(255,255,255,.15), 0 0 24px rgba(253,203,110,.3);}
-
-@keyframes siri-idle{0%,100%{opacity:0.3;transform:scale(1);}50%{opacity:0.45;transform:scale(1.03);}}
-@keyframes siri-spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-@keyframes siri-breathe{0%,100%{transform:rotate(0deg) scale(1);}50%{transform:rotate(180deg) scale(1.12);}}
-@keyframes siri-pulse{0%,100%{opacity:0.6;transform:rotate(0deg) scale(1);}50%{opacity:0.85;transform:rotate(180deg) scale(1.08);}}
-@keyframes siri-speak-pulse{0%,100%{opacity:0.7;transform:rotate(0deg) scale(1);}50%{opacity:0.95;transform:rotate(180deg) scale(1.15);}}
+.siri-orb:active{transform:scale(0.94);}
+.siri-orb-canvas{position:absolute;inset:-36px;width:160px;height:160px;z-index:1;pointer-events:none;}
+/* Core glass circle */
+.siri-orb-core{width:60px;height:60px;border-radius:50%;position:relative;z-index:2;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:all .4s cubic-bezier(.4,0,.2,1);overflow:hidden;}
+.siri-orb-core{background:radial-gradient(circle at 38% 32%, rgba(55,55,72,.88), rgba(16,16,26,.95));box-shadow:inset 0 1px 3px rgba(255,255,255,.08), inset 0 -1px 2px rgba(0,0,0,.3), 0 4px 24px rgba(0,0,0,.5), 0 0 0 1.5px rgba(255,255,255,.06);}
+body.light .siri-orb-core{background:radial-gradient(circle at 38% 32%, rgba(248,249,255,.92), rgba(225,228,248,.95));box-shadow:inset 0 1px 3px rgba(255,255,255,.8), inset 0 -1px 2px rgba(0,0,0,.04), 0 4px 24px rgba(0,0,0,.1), 0 0 0 1.5px rgba(255,255,255,.4);}
+/* SVG mic icon */
+.siri-mic-svg{width:26px;height:26px;transition:all .35s cubic-bezier(.4,0,.2,1);}
+.siri-mic-svg path,.siri-mic-svg line,.siri-mic-svg rect{stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.siri-mic-svg .mic-head-fill{fill:currentColor;stroke:none;}
+.siri-orb-core{color:rgba(200,200,220,.85);}
+body.light .siri-orb-core{color:rgba(60,65,90,.75);}
+/* State-specific icon colors */
+.siri-orb[data-state="idle"] .siri-orb-core{color:rgba(200,200,220,.7);}
+.siri-orb[data-state="listening"] .siri-orb-core{color:#ff6b6b;}
+.siri-orb[data-state="thinking"] .siri-orb-core{color:#a29bfe;}
+.siri-orb[data-state="speaking"] .siri-orb-core{color:#fdcb6e;}
+.siri-orb[data-state="connecting"] .siri-orb-core{color:#74b9ff;}
+body.light .siri-orb[data-state="idle"] .siri-orb-core{color:rgba(80,85,110,.6);}
+body.light .siri-orb[data-state="listening"] .siri-orb-core{color:#e84393;}
+body.light .siri-orb[data-state="thinking"] .siri-orb-core{color:#6c5ce7;}
+body.light .siri-orb[data-state="speaking"] .siri-orb-core{color:#e17055;}
+body.light .siri-orb[data-state="connecting"] .siri-orb-core{color:#0984e3;}
+/* Core glow per state */
+.siri-orb[data-state="listening"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.15), 0 0 32px rgba(255,107,107,.3), 0 0 0 1.5px rgba(255,107,107,.12);}
+.siri-orb[data-state="thinking"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.12), 0 0 32px rgba(108,92,231,.3), 0 0 0 1.5px rgba(108,92,231,.12);}
+.siri-orb[data-state="speaking"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.15), 0 0 36px rgba(253,203,110,.3), 0 0 0 1.5px rgba(253,203,110,.12);}
+.siri-orb[data-state="connecting"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.12), 0 0 28px rgba(116,185,255,.25), 0 0 0 1.5px rgba(116,185,255,.1);}
+body.light .siri-orb[data-state="listening"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.7), 0 0 32px rgba(232,67,147,.2), 0 0 0 1.5px rgba(232,67,147,.15);}
+body.light .siri-orb[data-state="thinking"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.7), 0 0 32px rgba(108,92,231,.2), 0 0 0 1.5px rgba(108,92,231,.15);}
+body.light .siri-orb[data-state="speaking"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.7), 0 0 36px rgba(225,112,85,.2), 0 0 0 1.5px rgba(225,112,85,.15);}
+body.light .siri-orb[data-state="connecting"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.7), 0 0 28px rgba(9,132,227,.15), 0 0 0 1.5px rgba(9,132,227,.12);}
+/* Heartbeat glow — idle orb pulses with rich glow */
+.siri-orb[data-state="idle"] .siri-orb-core{animation:orb-heartbeat 2.4s ease-in-out infinite;}
+@keyframes orb-heartbeat{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 3px rgba(255,255,255,.1),inset 0 -1px 2px rgba(0,0,0,.3),0 0 18px rgba(160,170,255,.15),0 0 0 1.5px rgba(160,170,255,.1),0 0 6px rgba(160,170,255,.1);}
+  15%{transform:scale(1.07);box-shadow:inset 0 1px 4px rgba(255,255,255,.25),inset 0 -1px 2px rgba(0,0,0,.15),0 0 48px rgba(160,170,255,.45),0 0 80px rgba(120,130,255,.2),0 0 0 3px rgba(160,170,255,.18),0 0 14px rgba(160,170,255,.3);}
+  30%{transform:scale(1);box-shadow:inset 0 1px 3px rgba(255,255,255,.1),inset 0 -1px 2px rgba(0,0,0,.3),0 0 18px rgba(160,170,255,.15),0 0 0 1.5px rgba(160,170,255,.1),0 0 6px rgba(160,170,255,.1);}
+  42%{transform:scale(1.05);box-shadow:inset 0 1px 4px rgba(255,255,255,.2),inset 0 -1px 2px rgba(0,0,0,.2),0 0 36px rgba(160,170,255,.35),0 0 60px rgba(120,130,255,.14),0 0 0 2.5px rgba(160,170,255,.14),0 0 10px rgba(160,170,255,.22);}
+  58%{transform:scale(1);}
+}
+body.light .siri-orb[data-state="idle"] .siri-orb-core{animation:orb-heartbeat-light 2.4s ease-in-out infinite;}
+@keyframes orb-heartbeat-light{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 3px rgba(255,255,255,.8),inset 0 -1px 2px rgba(0,0,0,.04),0 0 14px rgba(80,90,200,.08),0 0 0 1.5px rgba(80,90,200,.08),0 0 6px rgba(80,90,200,.06);}
+  15%{transform:scale(1.07);box-shadow:inset 0 1px 4px rgba(255,255,255,.95),inset 0 -1px 2px rgba(0,0,0,.02),0 0 42px rgba(80,90,200,.25),0 0 70px rgba(80,90,200,.12),0 0 0 3px rgba(80,90,200,.15),0 0 14px rgba(80,90,200,.18);}
+  30%{transform:scale(1);box-shadow:inset 0 1px 3px rgba(255,255,255,.8),inset 0 -1px 2px rgba(0,0,0,.04),0 0 14px rgba(80,90,200,.08),0 0 0 1.5px rgba(80,90,200,.08),0 0 6px rgba(80,90,200,.06);}
+  42%{transform:scale(1.05);box-shadow:inset 0 1px 4px rgba(255,255,255,.9),inset 0 -1px 2px rgba(0,0,0,.03),0 0 32px rgba(80,90,200,.18),0 0 54px rgba(80,90,200,.09),0 0 0 2.5px rgba(80,90,200,.12),0 0 10px rgba(80,90,200,.14);}
+  58%{transform:scale(1);}
+}
+/* Connecting — soft pulse (no spin) */
+.siri-orb[data-state="connecting"] .siri-orb-core{animation:orb-connecting-pulse 1.2s ease-in-out infinite;}
+@keyframes orb-connecting-pulse{
+  0%,100%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.08);opacity:.8;}
+}
 
 .voice-state{font-size:10px;font-family:var(--font-mono);color:var(--text3);text-align:center;min-height:14px;pointer-events:none;opacity:0;transition:opacity .2s;}
 .voice-state.visible{opacity:1;}
-.voice-gear{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all .15s;}
-.voice-gear:hover{border-color:var(--gold);color:var(--gold);}
-.voice-settings{display:none;position:fixed;bottom:115px;right:24px;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:12px;width:240px;box-shadow:0 8px 32px rgba(0,0,0,.2);z-index:1000;}
+/* Voice settings popover */
+.voice-settings{display:none;position:fixed;bottom:120px;right:20px;background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:16px;width:270px;box-shadow:0 12px 40px rgba(0,0,0,.25);z-index:1000;}
 .voice-settings.open{display:block;}
-.voice-settings-title{font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:8px;letter-spacing:.5px;}
-.api-key-bar{display:flex;align-items:center;gap:6px;margin-bottom:8px;padding:6px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;}
-.api-key-bar input{flex:1;background:transparent;border:none;outline:none;font-size:11px;color:var(--text);font-family:var(--font-mono);}
-.api-key-bar button{font-size:10px;padding:3px 8px;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font-mono);transition:all .15s;}
-.api-key-bar button:hover{border-color:var(--gold);color:var(--gold);}
+.voice-settings-title{font-size:11px;font-family:var(--font-mono);color:var(--text3);margin-bottom:10px;letter-spacing:.5px;}
+/* popover fields */
+.popover-label{font-size:10px;font-family:var(--font-mono);color:var(--text3);margin-bottom:4px;letter-spacing:.3px;}
+.popover-input{width:100%;box-sizing:border-box;padding:8px 10px;font-size:11px;font-family:var(--font-mono);color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:6px;outline:none;transition:border-color .15s;}
+.popover-input:focus{border-color:var(--gold);}
+.popover-input.saved{border-color:rgba(46,204,113,.3);color:var(--green);}
+.voice-model-sel{font-size:11px;padding:8px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font-mono);outline:none;cursor:pointer;width:100%;box-sizing:border-box;}
+body.light .voice-model-sel{background:#EEF2FC;border-color:var(--border2);}
+body.light .popover-input{background:#EEF2FC;border-color:var(--border2);color:var(--text);}
+/* legacy api-key-bar kept for settings page */
+.api-key-bar{display:flex;flex-direction:column;gap:6px;padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;}
+.api-key-row{display:flex;align-items:center;gap:6px;}
+.api-key-bar input{flex:1;min-width:0;background:transparent;border:none;outline:none;font-size:12px;color:var(--text);font-family:var(--font-mono);}
 .api-key-bar.saved{border-color:rgba(46,204,113,.3);}
 .api-key-bar.saved input{color:var(--green);}
-.voice-model-sel{font-size:11px;padding:4px 8px;border-radius:4px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:var(--font-mono);outline:none;cursor:pointer;width:100%;}
-body.light .voice-model-sel{background:#EEF2FC;border-color:var(--border2);}
 body.light .api-key-bar{background:#EEF2FC;border-color:var(--border2);}
 body.light .api-key-bar input{color:var(--text);}
 
@@ -692,6 +731,10 @@ body.light .rs-out-btn{border-color:rgba(0,0,0,.1);color:var(--text3);}
     <div class="nav-item" data-page="enforce" onclick="nav(this)">
       <div class="nav-icon">⚑</div> Enforcement
     </div>
+    <div class="nav-section">Settings</div>
+    <div class="nav-item" data-page="voicesettings" onclick="nav(this)">
+      <div class="nav-icon">🎙</div> Voice Settings
+    </div>
   </nav>
   <div class="sidebar-footer">
     <div class="user-chip">
@@ -727,7 +770,9 @@ body.light .rs-out-btn{border-color:rgba(0,0,0,.1);color:var(--text3);}
     <!-- CA TICKER -->
     <div class="ticker">
       <div class="ticker-label">LIVE CA</div>
-      <div class="ticker-text">India's CAD narrows to 1.2% of GDP in Q2 · PM Modi chairs Cabinet meet on Budget 2025 · India ranks 43rd on Global Innovation Index · Supreme Court upholds Electoral Bonds verdict · RBI holds repo rate at 6.5% · India joins ISA as full member · New Education Policy 2024 update released ·</div>
+      <div class="ticker-track">
+        <div class="ticker-text">India's CAD narrows to 1.2% of GDP in Q2 · PM Modi chairs Cabinet meet on Budget 2025 · India ranks 43rd on Global Innovation Index · Supreme Court upholds Electoral Bonds verdict · RBI holds repo rate at 6.5% · India joins ISA as full member · New Education Policy 2024 update released ·</div>
+      </div>
     </div>
 
     <!-- ===== PAGE: HOME ===== -->
@@ -2041,6 +2086,55 @@ Current affairs link:"></textarea>
       </div>
     </div>
 
+    <!-- ===== PAGE: VOICE SETTINGS ===== -->
+    <div class="page" id="page-voicesettings">
+      <div style="max-width:520px;">
+
+        <!-- KEY SECTION -->
+        <div class="section-head">
+          <div class="section-title">🔑 API Key</div>
+          <div class="section-sub">Your OpenAI key is stored only in this browser session and auto-expires after 30 min.</div>
+        </div>
+        <div class="card mb-16">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:13px;color:var(--text2);font-weight:600;">OpenAI API Key</span>
+              <span id="vs-key-status" style="font-size:10px;font-family:var(--font-mono);padding:2px 8px;border-radius:3px;margin-left:auto;"></span>
+            </div>
+            <input class="popover-input" type="password" id="vs-openai-key-input" placeholder="sk-proj-..." style="font-size:12px;" />
+            <div class="key-timer" id="vs-key-timer" style="display:none;font-size:10px;font-family:var(--font-mono);color:var(--text3);text-align:center;padding:2px 0;"></div>
+          </div>
+        </div>
+
+        <!-- MODEL SECTION -->
+        <div class="section-head">
+          <div class="section-title">🎙 Voice Model</div>
+          <div class="section-sub">Choose the AI voice for the live assistant and text-to-speech playback.</div>
+        </div>
+        <div class="card mb-16">
+          <select class="voice-model-sel" id="vs-voice-model-sel" onchange="setVoiceModel(this.value)" style="padding:10px 12px;font-size:12px;">
+            <option value="alloy">alloy — neutral</option>
+            <option value="ash">ash — conversational</option>
+            <option value="ballad">ballad — warm</option>
+            <option value="coral" selected>coral — friendly</option>
+            <option value="echo">echo — clear</option>
+            <option value="sage">sage — calm</option>
+            <option value="shimmer">shimmer — expressive</option>
+            <option value="verse">verse — balanced</option>
+            <option value="marin">marin — natural</option>
+            <option value="cedar">cedar — deep</option>
+          </select>
+        </div>
+
+        <!-- ACTIONS -->
+        <div style="display:flex;gap:10px;">
+          <button id="vs-save-btn" onclick="vsSaveKey()" style="flex:1;padding:10px 0;border-radius:6px;border:1px solid rgba(232,160,32,.3);background:rgba(232,160,32,.1);color:var(--gold);font-size:12px;font-family:var(--font-mono);cursor:pointer;transition:all .15s;font-weight:600;" onmouseover="this.style.background='rgba(232,160,32,.2)'" onmouseout="this.style.background='rgba(232,160,32,.1)'">💾 Save / Update</button>
+          <button onclick="nukeAllKeys(); vsRefreshUI();" style="flex:1;padding:10px 0;border-radius:6px;border:1px solid rgba(239,68,68,.35);background:rgba(239,68,68,.06);color:var(--red);font-size:12px;font-family:var(--font-mono);cursor:pointer;transition:all .15s;font-weight:600;" onmouseover="this.style.background='rgba(239,68,68,.15)'" onmouseout="this.style.background='rgba(239,68,68,.06)'">🗑 Wipe Key</button>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </div>
 </div>
@@ -2063,39 +2157,50 @@ Current affairs link:"></textarea>
 
 <!-- VOICE — True S2S via Siri Orb -->
 <div class="voice-fab">
-  <!-- Settings panel (hidden, gear toggle) -->
+  <!-- Voice quick-settings popover -->
   <div class="voice-settings" id="voice-settings">
-    <div class="voice-settings-title">VOICE SETTINGS</div>
-    <div class="api-key-bar" id="api-key-bar">
-      <span style="font-size:11px;">🔑</span>
-      <input type="password" id="openai-key-input" placeholder="OpenAI API key..." />
-      <button onclick="saveOpenAiKey()">Save</button>
-    </div>
-    <select class="voice-model-sel" id="voice-model-sel" onchange="setVoiceModel(this.value)">
+    <div class="voice-settings-title">VOICE SETUP</div>
+    <!-- API Key -->
+    <div class="popover-label">🔑 API KEY</div>
+    <input class="popover-input" type="password" id="openai-key-input" placeholder="sk-proj-..." style="margin-bottom:10px;" />
+    <!-- Voice Model -->
+    <div class="popover-label">🎙 VOICE MODEL</div>
+    <select class="voice-model-sel" id="popover-voice-sel" onchange="setVoiceModel(this.value)" style="margin-bottom:12px;">
       <option value="alloy">alloy — neutral</option>
-      <option value="nova" selected>nova — warm</option>
+      <option value="ash">ash — conversational</option>
+      <option value="ballad">ballad — warm</option>
+      <option value="coral" selected>coral — friendly</option>
+      <option value="echo">echo — clear</option>
+      <option value="sage">sage — calm</option>
       <option value="shimmer">shimmer — expressive</option>
-      <option value="echo">echo — male</option>
-      <option value="onyx">onyx — deep</option>
-      <option value="fable">fable — narrative</option>
+      <option value="verse">verse — balanced</option>
+      <option value="marin">marin — natural</option>
+      <option value="cedar">cedar — deep</option>
     </select>
-    <div class="key-timer" id="key-timer" style="display:none;font-size:10px;font-family:var(--font-mono);color:var(--text3);text-align:center;padding:4px 0;"></div>
-    <button onclick="nukeAllKeys()" style="width:100%;margin-top:8px;padding:6px 0;border-radius:4px;border:1px solid rgba(239,68,68,.4);background:rgba(239,68,68,.08);color:var(--red);font-size:11px;font-family:var(--font-mono);cursor:pointer;transition:all .15s;" onmouseover="this.style.background='rgba(239,68,68,.2)'" onmouseout="this.style.background='rgba(239,68,68,.08)'">🗑 Wipe Key & Exit Demo</button>
+    <!-- Save -->
+    <button onclick="saveOpenAiKey()" style="width:100%;padding:8px 0;border-radius:6px;border:1px solid rgba(232,160,32,.3);background:rgba(232,160,32,.1);color:var(--gold);font-size:11px;font-family:var(--font-mono);cursor:pointer;transition:all .15s;font-weight:600;" onmouseover="this.style.background='rgba(232,160,32,.2)'" onmouseout="this.style.background='rgba(232,160,32,.1)'">Save & Connect</button>
+    <div class="key-timer" id="key-timer" style="display:none;font-size:10px;font-family:var(--font-mono);color:var(--text3);text-align:center;padding:4px 0;margin-top:4px;"></div>
   </div>
   <!-- State label -->
   <div class="voice-state" id="voice-state"></div>
-  <!-- Siri Orb — tap to start/stop recording -->
+  <!-- Siri Orb -->
   <div class="siri-orb" id="siri-orb" data-state="idle" onclick="voiceTap()" title="Tap to talk">
-    <div class="siri-orb-glow"></div>
-    <div class="siri-orb-core" id="siri-orb-core">🎙</div>
+    <canvas class="siri-orb-canvas" id="siri-orb-canvas" width="320" height="320"></canvas>
+    <div class="siri-orb-core" id="siri-orb-core">
+      <svg class="siri-mic-svg" viewBox="0 0 24 24" id="siri-mic-svg">
+        <rect x="9" y="2" width="6" height="12" rx="3" class="mic-head-fill" opacity=".15"/>
+        <rect x="9" y="2" width="6" height="12" rx="3"/>
+        <path d="M5 10a7 7 0 0 0 14 0"/>
+        <line x1="12" y1="17" x2="12" y2="22"/>
+        <line x1="8" y1="22" x2="16" y2="22"/>
+      </svg>
+    </div>
   </div>
-  <!-- Tiny gear for settings -->
-  <button class="voice-gear" id="voice-gear" onclick="toggleVoiceSettings()" title="Settings">⚙</button>
 </div>
 
 <script>
 // PAGE TITLES
-const pageTitles = {home:'Daily Command Center',study:'Study Mode',notes:'Notes Layer',ainotes:'AI Notes Generator',ca:'Current Affairs Hub',cowork:'AI Cowork — Agent Mode',test:'Testing System',planview:'Plan View',perf:'Performance Dashboard',enforce:'Enforcement Engine'};
+const pageTitles = {home:'Daily Command Center',study:'Study Mode',notes:'Notes Layer',ainotes:'AI Notes Generator',ca:'Current Affairs Hub',cowork:'AI Cowork — Agent Mode',test:'Testing System',planview:'Plan View',perf:'Performance Dashboard',enforce:'Enforcement Engine',voicesettings:'Voice Settings'};
 
 function nav(el){
   document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
@@ -2347,7 +2452,7 @@ function showMentor(){
 
 // ===== VOICE ENGINE (Natural Voice — Tap → Speak → Hear) =====
 let currentAudio = null;
-let oaiVoiceModel = 'nova';
+let oaiVoiceModel = 'coral';
 let v2vConversation = [
   {role:'system', content:`You are the AI voice assistant for GS 360 — India's first execution-first UPSC preparation platform, powered by Shubhra Ranjan IAS (SRIAS). You speak as a warm, knowledgeable UPSC coach.
 
@@ -2425,37 +2530,19 @@ function saveOpenAiKey(){
   const input = document.getElementById('openai-key-input');
   const raw = input.value.trim();
   if(!raw){ alert('Please enter your OpenAI API key.'); return; }
-  // Basic format validation
   if(!raw.startsWith('sk-') || raw.length < 20){
-    alert('That doesn\'t look like a valid OpenAI key (should start with sk-)');
-    return;
+    alert('That doesn\'t look like a valid OpenAI key (should start with sk-)'); return;
   }
-  // Store in memory
   _oaiKey = raw;
-  // Store in sessionStorage (tab lifetime only — not persisted to disk)
   sessionStorage.setItem('gs360_sk', raw);
-  // Clear input immediately — key must not sit in DOM
+  // Mask the popover input
   input.value = '•••••' + raw.slice(-4);
   input.disabled = true;
-  const bar = document.getElementById('api-key-bar');
-  bar.classList.add('saved');
-  // Add reset button
-  if(!bar.querySelector('.reset-key')){
-    const rb = document.createElement('button');
-    rb.className = 'reset-key';
-    rb.textContent = 'Reset';
-    rb.onclick = ()=>{
-      _oaiKey = '';
-      sessionStorage.removeItem('gs360_sk');
-      input.value = '';
-      input.disabled = false;
-      bar.classList.remove('saved');
-      rb.remove();
-    };
-    bar.appendChild(rb);
-  }
+  input.classList.add('saved');
+  // Close popover
   document.getElementById('voice-settings').classList.remove('open');
-  // Start auto-expiry timer
+  // Sync voice settings page
+  if(typeof vsRefreshUI==='function') vsRefreshUI();
   startKeyTimer();
 }
 
@@ -2463,25 +2550,11 @@ function saveOpenAiKey(){
 (function initApiKey(){
   const key = getOpenAiKey();
   if(key){
-    document.getElementById('openai-key-input').value = '•••••' + key.slice(-4);
-    document.getElementById('openai-key-input').disabled = true;
-    document.getElementById('api-key-bar').classList.add('saved');
-    const bar = document.getElementById('api-key-bar');
-    if(!bar.querySelector('.reset-key')){
-      const rb = document.createElement('button');
-      rb.className = 'reset-key';
-      rb.textContent = 'Reset';
-      rb.onclick = ()=>{
-        _oaiKey = '';
-        sessionStorage.removeItem('gs360_sk');
-        document.getElementById('openai-key-input').value = '';
-        document.getElementById('openai-key-input').disabled = false;
-        bar.classList.remove('saved');
-        rb.remove();
-      };
-      bar.appendChild(rb);
-    }
+    const input = document.getElementById('openai-key-input');
+    if(input){ input.value = '•••••' + key.slice(-4); input.disabled = true; input.classList.add('saved'); }
   }
+  // Init Voice Settings page UI
+  setTimeout(()=>{ if(typeof vsRefreshUI==='function') vsRefreshUI(); }, 200);
 })();
 
 // ===== DEMO-SAFE KEY WIPE =====
@@ -2492,9 +2565,7 @@ function nukeAllKeys(){
   localStorage.removeItem('gs360_openai_key'); // in case anything remains
   // Clear UI
   const input = document.getElementById('openai-key-input');
-  if(input){ input.value = ''; input.disabled = false; }
-  const bar = document.getElementById('api-key-bar');
-  if(bar){ bar.classList.remove('saved'); const rb = bar.querySelector('.reset-key'); if(rb) rb.remove(); }
+  if(input){ input.value = ''; input.disabled = false; input.classList.remove('saved'); }
   // Stop any playing audio
   stopVoice();
   // Clear conversation history (may contain sensitive context)
@@ -2510,7 +2581,7 @@ function nukeAllKeys(){
   const timerEl = document.getElementById('key-timer');
   if(timerEl) timerEl.style.display = 'none';
   // Visual confirmation
-  document.getElementById('voice-settings').classList.add('open');
+  if(typeof vsRefreshUI==='function') vsRefreshUI();
   alert('✓ All keys wiped. Memory, storage, cache — everything cleared.');
 }
 
@@ -2522,7 +2593,9 @@ const KEY_TTL_MS = 30 * 60 * 1000; // 30 minutes
 function startKeyTimer(){
   _keyExpiresAt = Date.now() + KEY_TTL_MS;
   const timerEl = document.getElementById('key-timer');
+  const vsTimerEl = document.getElementById('vs-key-timer');
   if(timerEl) timerEl.style.display = 'block';
+  if(vsTimerEl) vsTimerEl.style.display = 'block';
   if(_keyTimerInterval) clearInterval(_keyTimerInterval);
   _keyTimerInterval = setInterval(()=>{
     const remaining = _keyExpiresAt - Date.now();
@@ -2532,8 +2605,11 @@ function startKeyTimer(){
     }
     const mins = Math.floor(remaining / 60000);
     const secs = Math.floor((remaining % 60000) / 1000);
+    const txt = '⏱ Key expires in ' + mins + ':' + String(secs).padStart(2,'0');
     const timerEl = document.getElementById('key-timer');
-    if(timerEl) timerEl.textContent = '⏱ Key expires in ' + mins + ':' + String(secs).padStart(2,'0');
+    const vsTimerEl = document.getElementById('vs-key-timer');
+    if(timerEl) timerEl.textContent = txt;
+    if(vsTimerEl) vsTimerEl.textContent = txt;
   }, 1000);
 }
 
@@ -2552,9 +2628,68 @@ window.addEventListener('beforeunload', ()=>{
   localStorage.removeItem('gs360_openai_key');
 });
 
-function setVoiceModel(m){ oaiVoiceModel = m; }
+function setVoiceModel(m){
+  oaiVoiceModel = m;
+  // Sync both selectors
+  const vsSel = document.getElementById('vs-voice-model-sel');
+  if(vsSel && vsSel.value !== m) vsSel.value = m;
+  const popSel = document.getElementById('popover-voice-sel');
+  if(popSel && popSel.value !== m) popSel.value = m;
+}
 function toggleVoiceSettings(){
   document.getElementById('voice-settings').classList.toggle('open');
+}
+
+// Close popover on outside click
+document.addEventListener('click', function(e){
+  const panel = document.getElementById('voice-settings');
+  const orb = document.getElementById('siri-orb');
+  if(!panel || !panel.classList.contains('open')) return;
+  if(panel.contains(e.target) || orb.contains(e.target)) return;
+  panel.classList.remove('open');
+});
+
+// ===== VOICE SETTINGS PAGE =====
+function vsRefreshUI(){
+  const key = getOpenAiKey();
+  const statusEl = document.getElementById('vs-key-status');
+  const input = document.getElementById('vs-openai-key-input');
+  const saveBtn = document.getElementById('vs-save-btn');
+  if(!statusEl) return;
+  if(key){
+    statusEl.textContent = '● Connected';
+    statusEl.style.cssText = 'font-size:10px;font-family:var(--font-mono);padding:2px 8px;border-radius:3px;margin-left:auto;background:rgba(46,204,113,.12);color:#2ecc71;';
+    input.value = '•••••' + key.slice(-4);
+    input.disabled = true;
+    input.classList.add('saved');
+    saveBtn.textContent = '💾 Saved ✓';
+    saveBtn.disabled = true;
+    saveBtn.style.opacity = '.5';
+  } else {
+    statusEl.textContent = '○ Not set';
+    statusEl.style.cssText = 'font-size:10px;font-family:var(--font-mono);padding:2px 8px;border-radius:3px;margin-left:auto;background:rgba(239,68,68,.1);color:var(--red);';
+    input.value = '';
+    input.disabled = false;
+    input.classList.remove('saved');
+    saveBtn.textContent = '💾 Save / Update';
+    saveBtn.disabled = false;
+    saveBtn.style.opacity = '1';
+  }
+}
+function vsSaveKey(){
+  const input = document.getElementById('vs-openai-key-input');
+  const raw = input.value.trim();
+  if(!raw){ alert('Please enter your OpenAI API key.'); return; }
+  if(!raw.startsWith('sk-') || raw.length < 20){
+    alert('That doesn\'t look like a valid OpenAI key (should start with sk-)'); return;
+  }
+  _oaiKey = raw;
+  sessionStorage.setItem('gs360_sk', raw);
+  // Sync popover input
+  const popInput = document.getElementById('openai-key-input');
+  if(popInput){ popInput.value = '•••••' + raw.slice(-4); popInput.disabled = true; popInput.classList.add('saved'); }
+  startKeyTimer();
+  vsRefreshUI();
 }
 
 // ===== STATE MACHINE: idle → connecting → listening → thinking → speaking =====
@@ -2563,32 +2698,183 @@ let voiceState = 'idle';
 function setVoiceState(state){
   voiceState = state;
   const orb = document.getElementById('siri-orb');
-  const core = document.getElementById('siri-orb-core');
   const stateEl = document.getElementById('voice-state');
   orb.setAttribute('data-state', state);
   stateEl.classList.remove('visible');
 
   if(state === 'idle'){
-    core.textContent = '🎙';
     stateEl.textContent = '';
+    _siriTarget = 'idle';
   } else if(state === 'connecting'){
-    core.textContent = '⏳';
     stateEl.textContent = 'Connecting...';
     stateEl.classList.add('visible');
-    orb.setAttribute('data-state', 'thinking'); // reuse thinking animation
+    _siriTarget = 'connecting';
   } else if(state === 'listening'){
-    core.textContent = '🟢';
-    stateEl.textContent = 'Live — speak anytime';
+    stateEl.textContent = 'Listening...';
     stateEl.classList.add('visible');
+    _siriTarget = 'listening';
   } else if(state === 'thinking'){
-    core.textContent = '💭';
-    stateEl.textContent = 'Processing...';
+    stateEl.textContent = 'Thinking...';
     stateEl.classList.add('visible');
+    _siriTarget = 'thinking';
   } else if(state === 'speaking'){
-    core.textContent = '🔊';
-    stateEl.textContent = '';
+    stateEl.textContent = 'Speaking...';
+    stateEl.classList.add('visible');
+    _siriTarget = 'speaking';
   }
 }
+
+// ===== SIRI ORB — Premium Canvas Renderer =====
+(function(){
+  const canvas = document.getElementById('siri-orb-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const S = 320;
+  const CX = S/2, CY = S/2;
+  canvas.width = S; canvas.height = S;
+
+  // ---- Palettes (arrays of HSL+alpha) ----
+  const palettes = {
+    idle:       [ {h:38,s:75,l:52}, {h:32,s:65,l:46}, {h:44,s:70,l:50} ],
+    connecting: [ {h:215,s:80,l:58}, {h:250,s:65,l:55}, {h:190,s:75,l:52}, {h:225,s:80,l:60} ],
+    listening:  [ {h:0,s:82,l:62}, {h:20,s:88,l:56}, {h:330,s:72,l:58}, {h:270,s:62,l:58}, {h:210,s:78,l:56}, {h:160,s:68,l:52}, {h:48,s:82,l:60} ],
+    thinking:   [ {h:260,s:68,l:56}, {h:210,s:78,l:55}, {h:165,s:62,l:50}, {h:240,s:68,l:58} ],
+    speaking:   [ {h:48,s:82,l:60}, {h:16,s:72,l:54}, {h:335,s:68,l:60}, {h:255,s:52,l:64}, {h:155,s:72,l:58}, {h:48,s:82,l:62} ]
+  };
+
+  // ---- Config per state ----
+  const configs = {
+    idle:       { baseR:48, wobbleAmp:2.5, rotSpeed:.15, breathAmp:1.5, breathHz:.3,  glowAlpha:.3,  blurPx:16 },
+    connecting: { baseR:50, wobbleAmp:5,   rotSpeed:.8,  breathAmp:3,   breathHz:.6,  glowAlpha:.55, blurPx:18 },
+    listening:  { baseR:54, wobbleAmp:11,  rotSpeed:1.6, breathAmp:6,   breathHz:1.4, glowAlpha:.85, blurPx:20 },
+    thinking:   { baseR:50, wobbleAmp:6,   rotSpeed:.7,  breathAmp:3.5, breathHz:.7,  glowAlpha:.65, blurPx:18 },
+    speaking:   { baseR:56, wobbleAmp:14,  rotSpeed:2.0, breathAmp:8,   breathHz:1.8, glowAlpha:.88, blurPx:22 }
+  };
+
+  window._siriTarget = 'idle';
+
+  // ---- Smooth animated values ----
+  let A = { baseR:48, wobbleAmp:2.5, rotSpeed:.15, breathAmp:1.5, breathHz:.3, glowAlpha:.3, blurPx:16 };
+  let colorBuf = palettes.idle.map(c=>({h:c.h,s:c.s,l:c.l}));
+
+  function lerp(a,b,t){ return a+(b-a)*t; }
+
+  // ---- Permutation table for noise ----
+  const perm = new Uint8Array(512);
+  (function(){ const p=[]; for(let i=0;i<256;i++) p[i]=i; for(let i=255;i>0;i--){const j=Math.floor(Math.random()*(i+1));[p[i],p[j]]=[p[j],p[i]];} for(let i=0;i<512;i++) perm[i]=p[i&255]; })();
+
+  function fade(t){ return t*t*t*(t*(t*6-15)+10); }
+  function grad2(hash,x,y){ const h=hash&3; return ((h&1)?-x:x)+((h&2)?-y:y); }
+  function perlin2(x,y){
+    const xi=Math.floor(x)&255, yi=Math.floor(y)&255;
+    const xf=x-Math.floor(x), yf=y-Math.floor(y);
+    const u=fade(xf), v=fade(yf);
+    const aa=perm[perm[xi]+yi], ab=perm[perm[xi]+yi+1];
+    const ba=perm[perm[xi+1]+yi], bb=perm[perm[xi+1]+yi+1];
+    return lerp(lerp(grad2(aa,xf,yf),grad2(ba,xf-1,yf),u), lerp(grad2(ab,xf,yf-1),grad2(bb,xf-1,yf-1),u), v);
+  }
+  function fbm3(x,y){ return perlin2(x,y)*.55 + perlin2(x*2.1,y*2.1)*.3 + perlin2(x*4.3,y*4.3)*.15; }
+
+  let t = 0;
+  const DPR = Math.min(window.devicePixelRatio||1, 2);
+
+  function draw(){
+    t += 0.016;
+    const cfg = configs[_siriTarget] || configs.idle;
+    const pal = palettes[_siriTarget] || palettes.idle;
+    const sp = 0.045; // lerp speed
+
+    // Lerp all params
+    A.baseR     = lerp(A.baseR,     cfg.baseR,     sp);
+    A.wobbleAmp = lerp(A.wobbleAmp, cfg.wobbleAmp, sp);
+    A.rotSpeed  = lerp(A.rotSpeed,  cfg.rotSpeed,  sp);
+    A.breathAmp = lerp(A.breathAmp, cfg.breathAmp, sp);
+    A.breathHz  = lerp(A.breathHz,  cfg.breathHz,  sp);
+    A.glowAlpha = lerp(A.glowAlpha, cfg.glowAlpha, sp);
+    A.blurPx    = lerp(A.blurPx,    cfg.blurPx,    sp);
+
+    // Lerp color buffer toward target palette
+    while(colorBuf.length < pal.length) colorBuf.push({...colorBuf[colorBuf.length-1]});
+    if(colorBuf.length > pal.length) colorBuf.length = pal.length;
+    for(let i=0;i<pal.length;i++){
+      colorBuf[i].h = lerp(colorBuf[i].h, pal[i].h, sp);
+      colorBuf[i].s = lerp(colorBuf[i].s, pal[i].s, sp);
+      colorBuf[i].l = lerp(colorBuf[i].l, pal[i].l, sp);
+    }
+
+    ctx.clearRect(0,0,S,S);
+    ctx.save();
+    ctx.filter = 'blur('+Math.round(A.blurPx)+'px)';
+    ctx.globalCompositeOperation = 'screen';
+
+    const n = colorBuf.length;
+    const speedT = t * A.rotSpeed;
+
+    for(let bi=0;bi<n;bi++){
+      const c = colorBuf[bi];
+      const phase = (bi/n)*Math.PI*2;
+      const breath = Math.sin(t*A.breathHz + bi*1.1)*A.breathAmp;
+
+      // Orbit offset — each blob orbits slightly
+      const orbitR = 3 + A.wobbleAmp*0.25;
+      const ox = Math.cos(speedT*0.35+phase)*orbitR;
+      const oy = Math.sin(speedT*0.45+phase)*orbitR;
+
+      // Draw blob shape
+      ctx.beginPath();
+      const segs = 72;
+      for(let i=0;i<=segs;i++){
+        const angle = (i/segs)*Math.PI*2;
+        const nx = Math.cos(angle+phase)*1.8 + speedT*0.55 + bi*4.1;
+        const ny = Math.sin(angle+phase)*1.8 + speedT*0.4 + bi*2.7;
+        const noiseVal = fbm3(nx, ny);
+        const r = A.baseR + breath + noiseVal*A.wobbleAmp;
+        const px = CX + ox + Math.cos(angle)*r;
+        const py = CY + oy + Math.sin(angle)*r;
+        if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      }
+      ctx.closePath();
+
+      // Radial gradient fill
+      const outerR = A.baseR + A.wobbleAmp + 12;
+      const grd = ctx.createRadialGradient(CX+ox, CY+oy, 0, CX+ox, CY+oy, outerR);
+      const alpha = A.glowAlpha;
+      grd.addColorStop(0,   'hsla('+Math.round(c.h)+','+Math.round(c.s)+'%,'+Math.round(c.l)+'%,'+(alpha*.95)+')');
+      grd.addColorStop(0.5, 'hsla('+Math.round(c.h)+','+Math.round(c.s)+'%,'+Math.round(c.l)+'%,'+(alpha*.55)+')');
+      grd.addColorStop(1,   'hsla('+Math.round(c.h)+','+Math.round(c.s)+'%,'+Math.round(c.l)+'%,0)');
+      ctx.fillStyle = grd;
+      ctx.fill();
+    }
+
+    ctx.restore();
+
+    // ---- Outer ring highlight (thin bright rim) ----
+    if(A.glowAlpha > 0.35){
+      ctx.save();
+      ctx.globalCompositeOperation = 'screen';
+      const rimR = A.baseR + 6 + Math.sin(t*A.breathHz)*2;
+      ctx.beginPath();
+      for(let i=0;i<=72;i++){
+        const angle = (i/72)*Math.PI*2;
+        const noiseVal = fbm3(Math.cos(angle)*2.2+speedT*0.6, Math.sin(angle)*2.2+speedT*0.4);
+        const r = rimR + noiseVal*A.wobbleAmp*0.6;
+        const px = CX + Math.cos(angle)*r;
+        const py = CY + Math.sin(angle)*r;
+        if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = 'hsla('+Math.round(colorBuf[0].h)+',80%,75%,'+(A.glowAlpha*0.3)+')';
+      ctx.lineWidth = 1.5;
+      ctx.filter = 'blur(2px)';
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})()
 
 // ===== WebRTC REALTIME SESSION =====
 let _rtcPeer = null;
@@ -2625,6 +2911,36 @@ function voiceTap(){
   connectRealtime();
 }
 
+// ===== COPYABLE ERROR MODAL =====
+function showErrorModal(title, detail){
+  // Remove any existing modal
+  const old = document.getElementById('err-modal-overlay');
+  if(old) old.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'err-modal-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;';
+  const box = document.createElement('div');
+  box.style.cssText = 'background:#1e1e2e;color:#e0e0e0;border-radius:12px;padding:24px 28px;max-width:560px;width:90%;max-height:70vh;display:flex;flex-direction:column;gap:12px;font-family:system-ui,sans-serif;box-shadow:0 8px 32px rgba(0,0,0,.5);';
+  box.innerHTML = '<div style="font-size:16px;font-weight:700;color:#ff6b6b;">⚠ ' + title + '</div>' +
+    '<pre style="background:#111;color:#ccc;padding:14px;border-radius:8px;font-size:13px;overflow:auto;max-height:40vh;white-space:pre-wrap;word-break:break-all;user-select:text;cursor:text;margin:0;">' +
+    detail.replace(/</g,'&lt;') + '</pre>' +
+    '<div style="display:flex;gap:8px;justify-content:flex-end;">' +
+    '<button id="err-copy-btn" style="padding:8px 16px;border:none;border-radius:6px;background:#4a9eff;color:#fff;cursor:pointer;font-size:13px;">📋 Copy</button>' +
+    '<button id="err-close-btn" style="padding:8px 16px;border:none;border-radius:6px;background:#444;color:#fff;cursor:pointer;font-size:13px;">Close</button>' +
+    '</div>';
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target === overlay) overlay.remove(); });
+  document.getElementById('err-close-btn').addEventListener('click', () => overlay.remove());
+  document.getElementById('err-copy-btn').addEventListener('click', () => {
+    navigator.clipboard.writeText(detail).then(() => {
+      document.getElementById('err-copy-btn').textContent = '✓ Copied!';
+      setTimeout(() => { const b = document.getElementById('err-copy-btn'); if(b) b.textContent = '📋 Copy'; }, 1500);
+    });
+  });
+}
+
 // ===== CONNECT: WebRTC to OpenAI Realtime =====
 async function connectRealtime(){
   const key = getOpenAiKey();
@@ -2633,78 +2949,118 @@ async function connectRealtime(){
   setVoiceState('connecting');
 
   try {
-    // 1. Create peer connection
+    // 1. Mint an ephemeral key via /v1/realtime/client_secrets
+    const ragKnowledge = ragChunks.map(c => c.text).join('\n\n');
+    const fullInstructions = _getRealtimeInstructions() +
+      '\n\n[PRODUCT KNOWLEDGE BASE — use this to answer specific questions about GS 360]\n' +
+      ragKnowledge;
+
+    console.log('[Realtime] Step 1: Requesting ephemeral key from /v1/realtime/client_secrets ...');
+    const secretResp = await fetch('https://api.openai.com/v1/realtime/client_secrets', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + key,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        session: {
+          type: 'realtime',
+          model: 'gpt-4o-realtime-preview',
+          instructions: fullInstructions,
+          audio: {
+            input: {
+              transcription: {
+                model: 'gpt-4o-mini-transcribe'
+              },
+              turn_detection: {
+                type: 'server_vad',
+                threshold: 0.5,
+                prefix_padding_ms: 300,
+                silence_duration_ms: 700
+              }
+            },
+            output: {
+              voice: oaiVoiceModel
+            }
+          }
+        }
+      })
+    });
+
+    if(!secretResp.ok){
+      const errText = await secretResp.text();
+      const detail = 'Step: Ephemeral Key Request\nEndpoint: POST /v1/realtime/client_secrets\nHTTP Status: ' + secretResp.status + '\n\nResponse:\n' + errText;
+      console.error('[Realtime] Ephemeral key error:', secretResp.status, errText);
+      disconnectRealtime();
+      showErrorModal('Realtime Session Error', detail);
+      return;
+    }
+
+    const secretData = await secretResp.json();
+    console.log('[Realtime] Ephemeral key response keys:', Object.keys(secretData));
+    const ephemeralKey = secretData.value || secretData.client_secret?.value;
+    if(!ephemeralKey){
+      const detail = 'Step: Parse Ephemeral Key\nCould not find ephemeral key in response.\n\nFull response:\n' + JSON.stringify(secretData, null, 2);
+      console.error('[Realtime] No ephemeral key in response:', secretData);
+      disconnectRealtime();
+      showErrorModal('Ephemeral Key Missing', detail);
+      return;
+    }
+    console.log('[Realtime] Step 1 OK — got ephemeral key (' + ephemeralKey.slice(0,12) + '...)');
+
+    // 2. Create peer connection
     _rtcPeer = new RTCPeerConnection();
 
-    // 2. Set up remote audio playback
+    // 3. Set up remote audio playback
     _rtcAudioEl = document.createElement('audio');
     _rtcAudioEl.autoplay = true;
     _rtcPeer.ontrack = (e) => {
       _rtcAudioEl.srcObject = e.streams[0];
     };
 
-    // 3. Get mic and add track
+    // 4. Get mic and add track
     _rtcStream = await navigator.mediaDevices.getUserMedia({
       audio: { echoCancellation: true, noiseSuppression: true }
     });
     _rtcPeer.addTrack(_rtcStream.getTracks()[0]);
 
-    // 4. Create data channel for events
+    // 5. Create data channel for events
     _rtcDataChannel = _rtcPeer.createDataChannel('oai-events');
     _rtcDataChannel.addEventListener('open', _onDataChannelOpen);
     _rtcDataChannel.addEventListener('message', _onDataChannelMessage);
 
-    // 5. Create SDP offer
+    // 6. Create SDP offer
     const offer = await _rtcPeer.createOffer();
     await _rtcPeer.setLocalDescription(offer);
 
-    // 6. Build session config — include RAG knowledge in instructions
-    const ragKnowledge = ragChunks.map(c => c.text).join('\n\n');
-    const fullInstructions = _getRealtimeInstructions() +
-      '\n\n[PRODUCT KNOWLEDGE BASE — use this to answer specific questions about GS 360]\n' +
-      ragKnowledge;
-
-    const sessionConfig = JSON.stringify({
-      type: 'realtime',
-      model: 'gpt-4o-realtime-preview',
-      voice: oaiVoiceModel,
-      instructions: fullInstructions,
-      turn_detection: {
-        type: 'server_vad',
-        threshold: 0.5,
-        prefix_padding_ms: 300,
-        silence_duration_ms: 700
-      },
-      input_audio_transcription: {
-        model: 'gpt-4o-mini-transcribe'
-      }
-    });
-
-    // 7. POST SDP + session to /v1/realtime/calls (unified interface)
-    const fd = new FormData();
-    fd.set('sdp', offer.sdp);
-    fd.set('session', sessionConfig);
-
+    // 7. POST raw SDP to /v1/realtime/calls with the ephemeral key
+    console.log('[Realtime] Step 2: Posting SDP to /v1/realtime/calls ...');
     const resp = await fetch('https://api.openai.com/v1/realtime/calls', {
       method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + key },
-      body: fd
+      headers: {
+        'Authorization': 'Bearer ' + ephemeralKey,
+        'Content-Type': 'application/sdp'
+      },
+      body: offer.sdp
     });
 
     if(!resp.ok){
       const errText = await resp.text();
-      console.error('Realtime session error:', resp.status, errText);
+      const detail = 'Step: SDP Exchange\nEndpoint: POST /v1/realtime/calls\nHTTP Status: ' + resp.status + '\n\nResponse:\n' + errText;
+      console.error('[Realtime] SDP exchange error:', resp.status, errText);
       disconnectRealtime();
-      alert('Failed to connect to Realtime API. Check your API key and model access.');
+      showErrorModal('Realtime Connection Error', detail);
       return;
     }
 
     // 8. Set answer SDP
     const answerSdp = await resp.text();
+    console.log('[Realtime] Step 2 OK — got answer SDP (' + answerSdp.length + ' bytes)');
     await _rtcPeer.setRemoteDescription({ type: 'answer', sdp: answerSdp });
 
     _rtcSessionReady = true;
     setVoiceState('listening');
+    console.log('[Realtime] Connected and listening!');
 
     // Handle connection state changes
     _rtcPeer.onconnectionstatechange = () => {
@@ -2714,9 +3070,10 @@ async function connectRealtime(){
     };
 
   } catch(e){
-    console.error('WebRTC connect failed:', e);
+    const detail = 'Step: ' + (e._step || 'Unknown') + '\nError: ' + (e.message || String(e)) + '\n\nStack:\n' + (e.stack || 'N/A');
+    console.error('[Realtime] WebRTC connect failed:', e);
     disconnectRealtime();
-    alert('Could not start voice session: ' + (e.message || e));
+    showErrorModal('Voice Session Error', detail);
   }
 }
 
