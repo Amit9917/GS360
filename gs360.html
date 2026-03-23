@@ -420,15 +420,52 @@ body.light .siri-orb[data-state="listening"] .siri-orb-core{color:#e84393;}
 body.light .siri-orb[data-state="thinking"] .siri-orb-core{color:#6c5ce7;}
 body.light .siri-orb[data-state="speaking"] .siri-orb-core{color:#e17055;}
 body.light .siri-orb[data-state="connecting"] .siri-orb-core{color:#0984e3;}
-/* Core glow per state */
-.siri-orb[data-state="listening"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.15), 0 0 32px rgba(255,107,107,.3), 0 0 0 1.5px rgba(255,107,107,.12);}
-.siri-orb[data-state="thinking"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.12), 0 0 32px rgba(108,92,231,.3), 0 0 0 1.5px rgba(108,92,231,.12);}
-.siri-orb[data-state="speaking"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.15), 0 0 36px rgba(253,203,110,.3), 0 0 0 1.5px rgba(253,203,110,.12);}
-.siri-orb[data-state="connecting"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.12), 0 0 28px rgba(116,185,255,.25), 0 0 0 1.5px rgba(116,185,255,.1);}
-body.light .siri-orb[data-state="listening"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.7), 0 0 32px rgba(232,67,147,.2), 0 0 0 1.5px rgba(232,67,147,.15);}
-body.light .siri-orb[data-state="thinking"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.7), 0 0 32px rgba(108,92,231,.2), 0 0 0 1.5px rgba(108,92,231,.15);}
-body.light .siri-orb[data-state="speaking"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.7), 0 0 36px rgba(225,112,85,.2), 0 0 0 1.5px rgba(225,112,85,.15);}
-body.light .siri-orb[data-state="connecting"] .siri-orb-core{box-shadow:inset 0 1px 3px rgba(255,255,255,.7), 0 0 28px rgba(9,132,227,.15), 0 0 0 1.5px rgba(9,132,227,.12);}
+/* LISTENING — intense Siri-like breathing glow, student is speaking */
+.siri-orb[data-state="listening"] .siri-orb-core{animation:orb-listen .9s ease-in-out infinite;}
+@keyframes orb-listen{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 4px rgba(255,255,255,.2),0 0 24px rgba(255,107,107,.35),0 0 48px rgba(255,80,80,.15),0 0 0 2.5px rgba(255,107,107,.15);}
+  50%{transform:scale(1.14);box-shadow:inset 0 2px 6px rgba(255,255,255,.35),0 0 60px rgba(255,107,107,.7),0 0 110px rgba(255,60,60,.3),0 0 160px rgba(255,80,80,.1),0 0 0 4px rgba(255,107,107,.3);}
+}
+body.light .siri-orb[data-state="listening"] .siri-orb-core{animation:orb-listen-l .9s ease-in-out infinite;}
+@keyframes orb-listen-l{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 4px rgba(255,255,255,.85),0 0 20px rgba(232,67,147,.2),0 0 40px rgba(232,67,147,.08),0 0 0 2.5px rgba(232,67,147,.12);}
+  50%{transform:scale(1.14);box-shadow:inset 0 2px 6px rgba(255,255,255,.98),0 0 55px rgba(232,67,147,.5),0 0 100px rgba(232,67,147,.2),0 0 140px rgba(232,67,147,.06),0 0 0 4px rgba(232,67,147,.25);}
+}
+/* THINKING — slow dreamy purple pulse with scale wobble */
+.siri-orb[data-state="thinking"] .siri-orb-core{animation:orb-think 1.8s ease-in-out infinite;}
+@keyframes orb-think{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 3px rgba(255,255,255,.12),0 0 22px rgba(108,92,231,.3),0 0 0 2px rgba(108,92,231,.1);}
+  35%{transform:scale(1.06);box-shadow:inset 0 1px 4px rgba(255,255,255,.2),0 0 48px rgba(108,92,231,.5),0 0 82px rgba(162,155,254,.18),0 0 0 3px rgba(108,92,231,.18);}
+  65%{transform:scale(.97);box-shadow:inset 0 1px 3px rgba(255,255,255,.1),0 0 18px rgba(108,92,231,.2),0 0 0 1.5px rgba(108,92,231,.08);}
+}
+body.light .siri-orb[data-state="thinking"] .siri-orb-core{animation:orb-think-l 1.8s ease-in-out infinite;}
+@keyframes orb-think-l{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 3px rgba(255,255,255,.8),0 0 18px rgba(108,92,231,.15),0 0 0 2px rgba(108,92,231,.1);}
+  35%{transform:scale(1.06);box-shadow:inset 0 1px 4px rgba(255,255,255,.95),0 0 40px rgba(108,92,231,.3),0 0 70px rgba(108,92,231,.1),0 0 0 3px rgba(108,92,231,.15);}
+  65%{transform:scale(.97);box-shadow:inset 0 1px 3px rgba(255,255,255,.75),0 0 14px rgba(108,92,231,.1),0 0 0 1.5px rgba(108,92,231,.06);}
+}
+/* SPEAKING — dramatic warm gold Siri bloom, AI is talking */
+.siri-orb[data-state="speaking"] .siri-orb-core{animation:orb-speak .55s ease-in-out infinite;}
+@keyframes orb-speak{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 4px rgba(255,255,255,.2),0 0 26px rgba(253,203,110,.4),0 0 50px rgba(255,180,60,.15),0 0 0 2.5px rgba(253,203,110,.18);}
+  50%{transform:scale(1.12);box-shadow:inset 0 2px 6px rgba(255,255,255,.35),0 0 65px rgba(253,203,110,.7),0 0 120px rgba(255,170,40,.3),0 0 170px rgba(255,200,80,.1),0 0 0 4.5px rgba(253,203,110,.3);}
+}
+body.light .siri-orb[data-state="speaking"] .siri-orb-core{animation:orb-speak-l .55s ease-in-out infinite;}
+@keyframes orb-speak-l{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 4px rgba(255,255,255,.85),0 0 22px rgba(225,112,85,.2),0 0 44px rgba(225,112,85,.08),0 0 0 2.5px rgba(225,112,85,.14);}
+  50%{transform:scale(1.12);box-shadow:inset 0 2px 6px rgba(255,255,255,.98),0 0 58px rgba(225,112,85,.5),0 0 105px rgba(225,112,85,.2),0 0 150px rgba(225,112,85,.06),0 0 0 4.5px rgba(225,112,85,.25);}
+}
+/* CONNECTING — gentle blue fade pulse */
+.siri-orb[data-state="connecting"] .siri-orb-core{animation:orb-connect 1.4s ease-in-out infinite;}
+@keyframes orb-connect{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 3px rgba(255,255,255,.12),0 0 18px rgba(116,185,255,.2),0 0 0 2px rgba(116,185,255,.08);opacity:1;}
+  50%{transform:scale(1.06);box-shadow:inset 0 1px 4px rgba(255,255,255,.2),0 0 42px rgba(116,185,255,.45),0 0 72px rgba(70,150,255,.15),0 0 0 3px rgba(116,185,255,.16);opacity:.75;}
+}
+body.light .siri-orb[data-state="connecting"] .siri-orb-core{animation:orb-connect-l 1.4s ease-in-out infinite;}
+@keyframes orb-connect-l{
+  0%,100%{transform:scale(1);box-shadow:inset 0 1px 3px rgba(255,255,255,.8),0 0 14px rgba(9,132,227,.1),0 0 0 2px rgba(9,132,227,.08);opacity:1;}
+  50%{transform:scale(1.06);box-shadow:inset 0 1px 4px rgba(255,255,255,.95),0 0 36px rgba(9,132,227,.28),0 0 60px rgba(9,132,227,.1),0 0 0 3px rgba(9,132,227,.14);opacity:.75;}
+}
 /* Heartbeat glow — idle orb pulses with rich glow */
 .siri-orb[data-state="idle"] .siri-orb-core{animation:orb-heartbeat 2.4s ease-in-out infinite;}
 @keyframes orb-heartbeat{
@@ -446,13 +483,6 @@ body.light .siri-orb[data-state="idle"] .siri-orb-core{animation:orb-heartbeat-l
   42%{transform:scale(1.05);box-shadow:inset 0 1px 4px rgba(255,255,255,.9),inset 0 -1px 2px rgba(0,0,0,.03),0 0 32px rgba(80,90,200,.18),0 0 54px rgba(80,90,200,.09),0 0 0 2.5px rgba(80,90,200,.12),0 0 10px rgba(80,90,200,.14);}
   58%{transform:scale(1);}
 }
-/* Connecting — soft pulse (no spin) */
-.siri-orb[data-state="connecting"] .siri-orb-core{animation:orb-connecting-pulse 1.2s ease-in-out infinite;}
-@keyframes orb-connecting-pulse{
-  0%,100%{transform:scale(1);opacity:1;}
-  50%{transform:scale(1.08);opacity:.8;}
-}
-
 .voice-state{font-size:10px;font-family:var(--font-mono);color:var(--text3);text-align:center;min-height:14px;pointer-events:none;opacity:0;transition:opacity .2s;}
 .voice-state.visible{opacity:1;}
 /* Voice settings popover */
@@ -684,6 +714,18 @@ body.light .rs-out-btn{border-color:rgba(0,0,0,.1);color:var(--text3);}
 .rs-run-btn:disabled{opacity:.4;cursor:not-allowed;}
 .rs-reset-btn{padding:9px 14px;background:transparent;border:1px solid var(--border2);border-radius:6px;font-family:var(--font-mono);font-size:11px;color:var(--text2);cursor:pointer;flex-shrink:0;transition:all .15s;}
 .rs-reset-btn:hover{border-color:var(--text2);color:var(--text);}
+
+/* ===== AMBIENT VOICE GLOW — whole-page vignette while voice active ===== */
+body::after{content:'';position:fixed;inset:0;z-index:998;pointer-events:none;opacity:0;transition:opacity .6s ease;}
+body.voice-listening::after{opacity:1;box-shadow:inset 0 0 120px 40px rgba(255,80,80,.12),inset 0 0 300px 80px rgba(255,60,60,.06);}
+body.voice-speaking::after{opacity:1;box-shadow:inset 0 0 120px 40px rgba(253,203,110,.12),inset 0 0 300px 80px rgba(255,180,40,.06);}
+body.voice-thinking::after{opacity:1;box-shadow:inset 0 0 100px 30px rgba(108,92,231,.1),inset 0 0 260px 60px rgba(162,155,254,.05);}
+body.voice-connecting::after{opacity:1;box-shadow:inset 0 0 100px 30px rgba(116,185,255,.1),inset 0 0 260px 60px rgba(70,150,255,.05);}
+/* Light theme adjustments */
+body.light.voice-listening::after{box-shadow:inset 0 0 120px 40px rgba(232,67,147,.08),inset 0 0 300px 80px rgba(232,67,147,.03);}
+body.light.voice-speaking::after{box-shadow:inset 0 0 120px 40px rgba(225,112,85,.08),inset 0 0 300px 80px rgba(225,112,85,.03);}
+body.light.voice-thinking::after{box-shadow:inset 0 0 100px 30px rgba(108,92,231,.06),inset 0 0 260px 60px rgba(108,92,231,.02);}
+body.light.voice-connecting::after{box-shadow:inset 0 0 100px 30px rgba(9,132,227,.06),inset 0 0 260px 60px rgba(9,132,227,.02);}
 
 </style>
 </head>
@@ -2454,55 +2496,94 @@ function showMentor(){
 let currentAudio = null;
 let oaiVoiceModel = 'coral';
 let v2vConversation = [
-  {role:'system', content:`You are the AI voice assistant for GS 360 — India's first execution-first UPSC preparation platform, powered by Shubhra Ranjan IAS (SRIAS). You speak as a warm, knowledgeable UPSC coach.
+  {role:'system', content:`You are the AI study buddy inside GS 360 — India's smartest UPSC prep platform by Shubhra Ranjan IAS. You talk like a friendly senior who cleared the exam — casual, supportive, and real. Use simple Hindi-English mix naturally (like "haan", "dekho", "suno", "bilkul") when it feels right. Keep it conversational.
+
+YOUR VIBE:
+- You're the student's 24/7 study partner — not a teacher, not a bot. Think: that one topper friend who always explains things simply.
+- Be encouraging but honest. If something is tough, say "haan ye thoda tricky hai, but let's break it down."
+- Use short punchy sentences. No lectures unless asked.
+- Celebrate small wins: "Nice! You remembered that from last week's revision."
+- When they're stressed, be real: "Bro/Didi, one bad day doesn't define your prep. Let's focus on what's next."
 
 ABOUT GS 360:
-GS 360 is NOT another content warehouse. It is a performance-driven ecosystem that bridges the gap between online convenience and offline coaching intensity. The core philosophy: "Stop Watching. Start Proving." Most aspirants fail not because they lack content (10,000+ hours exist free), but because they lack execution, retention, and discipline. GS 360 solves exactly this.
+GS 360 is not just another coaching app — it's built for students who are tired of watching 100 lectures but still blanking in tests. Core idea: "Stop Watching. Start Proving." It tracks what you actually know vs what you think you know.
 
-KEY FEATURES:
-- Daily Command Center: An action-first dashboard showing today's tasks, streak, readiness meter, weak areas, and schedule. No overwhelm — just clear tasks.
-- AI Notes Generator: Powered by Claude AI — generates structured UPSC notes, mind maps, Q&A, revision summaries, and Mains answer frameworks on any topic.
-- Smart Study Plan: AI-generated daily schedule adapting to the student's pace, weak areas, and exam timeline.
-- Revision Engine: Fights the Ebbinghaus forgetting curve with spaced repetition — tracks retention % per topic and auto-schedules revision.
-- Performance Dashboard: Tracks accuracy across GS1 (History, Geography, Society), GS2 (Polity, Governance, IR), GS3 (Economy, Environment, S&T), GS4 (Ethics). Shows subject-wise heatmaps, week-over-week trends, and exam readiness projections.
-- Testing System: UPSC-style Prelims MCQ tests with explanations and PYQ references.
-- AI Cowork Agent: Deep research agent that analyses uploaded documents (Budget, Economic Survey, etc.) and generates UPSC-angle questions and notes.
-- Answer Writing Practice: Mains answer frameworks with AI-scored rubric feedback.
-- Current Affairs Hub: Daily newspaper analysis integrated with UPSC syllabus mapping.
-- Enforcement Engine: Accountability features — daily targets, streak tracking, mentor alerts, and revision nudges.
-- AI Voice Bot (this!): Voice-to-voice UPSC companion for doubts, quizzes, daily briefings, revision recall, motivation, and interview simulation.
+WHAT YOU CAN HELP WITH:
+- Explain any UPSC topic simply (Polity, History, Geography, Economy, Ethics — all papers)
+- Quick revision: "Test me on Article 370" or "Give me 5 MCQs on Indian Economy"
+- Mains answer guidance: structure, keywords, examples, PYQ connections
+- Current affairs links to syllabus: "How does today's news connect to GS2?"
+- Motivation when prep feels overwhelming
+- Study plan advice and time management tips
+- Interview prep: mock questions based on profile
+- Doubt clearing — even "silly" doubts, no judgement ever
+
+KEY PLATFORM FEATURES (mention when relevant):
+- Daily Command Center: Today's tasks, streak, readiness score
+- AI Notes: Auto-generates structured notes, mind maps, answer frameworks
+- Smart Study Plan: Adapts daily based on your pace and weak areas
+- Revision Engine: Spaced repetition that fights forgetting
+- Performance Dashboard: Subject-wise accuracy, trends, exam readiness
+- Testing System: Prelims MCQs with explanations and PYQ references
+- AI Cowork: Research agent for deep analysis of documents
+- Current Affairs Hub: Daily newspaper analysis mapped to syllabus
+- Enforcement Engine: Streak tracking, targets, accountability
 
 THIS IS A DEMO:
-This is a live product demo showcasing the GS 360 platform's UI, AI capabilities, and student experience. Some data shown is sample/simulated (e.g., the student profile "Arjun", streak counts, accuracy numbers). In this demo, you can explore all screens, generate real AI notes, interact with this voice assistant, and see the full daily workflow.
+This is a live demo of GS 360. Some data (like student name "Arjun", streaks) is simulated. But the AI features are real — you can generate notes, ask doubts, and talk to me right now!
 
-FULL PRODUCTION CAPABILITIES (beyond this demo):
-- Real student profiles with actual performance data synced from tests and daily tasks.
-- WhatsApp integration for voice messages, daily CA delivery, and streak nudges.
-- Hindi + English + Hinglish voice support.
-- AI Interview Simulator: full 25-minute mock interviews based on student's DAF (Detailed Application Form), with scoring on content, clarity, pace, and follow-ups. Multiple board styles (Academic, Stress, Conversational, Technical, Mixed).
-- Voice Quiz Mode: hands-free verbal MCQ quizzes during commutes — AI asks, student answers by voice, AI scores and explains.
-- Aspirant's Box: monthly physical kit with printed PYQ booklets, answer writing sheets, motivation cards, and SRIAS handwritten strategy notes.
-- Study Pods: groups of 4-5 matched aspirants for peer accountability, group revision, and shared milestones.
-- Human Mentor System: 2x video calls/month with assigned SRIAS mentors + this AI voice mentor 24/7.
-- Geo-fencing features for library/study zone discipline tracking.
-- Mobile app with offline support, push notifications, and widget for daily task.
-- Monthly readiness re-tests that update the AI study plan dynamically.
-- Full admin panel with AI-powered operations for content scheduling, student health monitoring, and intervention triggers.
-- Smart plan that self-corrects based on missed tasks, weak scores, and topic-wise retention decay.
-- Pricing tiers: Core (Rs 2,083/month), Pro (Rs 3,750/month with mentoring), Elite (Rs 6,250/month with 1-on-1 + interview prep).
+YOUR RULES:
+- Keep it SHORT. 2-3 sentences max unless they ask for more.
+- Talk like a friend, not a textbook. Use casual language.
+- If they ask a UPSC doubt, explain simply first, then connect to PYQs if relevant.
+- If they ask "what is GS 360", give a quick exciting pitch — like telling a friend about something cool.
+- If they seem stressed or low, be supportive first, advice second.
+- Never make up stats or facts. If unsure, say "I'm not 100% sure on that, let me not guess."
+- When CONTEXT blocks appear in conversation, use that info accurately.
+- Mention this is a demo only if directly asked — don't keep repeating it.
+- End responses with something actionable: a question, a suggestion, or encouragement.
 
-YOUR BEHAVIOR:
-- Keep answers concise (2-4 sentences) unless asked for detail.
-- Be warm, direct, and encouraging.
-- When asked about features, explain what they do and how they help UPSC aspirants.
-- When asked "what is this" or "tell me about GS 360", give a compelling 3-4 line pitch.
-- When users ask UPSC subject doubts, help with clear explanations and mention PYQ relevance.
-- Always remind users this is a demo and the full product has even deeper capabilities.
-- Never make up data — if you don't know a specific stat, say so.
-- When you receive CONTEXT blocks in the conversation, use that information to answer accurately. These are retrieved from the official GS 360 product documents. Always prefer context-provided facts over your general knowledge.
+WHEN ASKED ABOUT STUDY PLANS, SCHEDULES, OR "WHY THIS PLAN?":
+- Always speak with full confidence — you know exactly why this plan was generated.
+- Say things like: "Ye plan tera previous performance aur streak data dekh ke bana hai. You were scoring low on [subject], so we've added extra revision slots there."
+- Reference their streak: "Tera 12-day streak strong hai, so we're pushing slightly harder topics now."
+- Reference weak areas: "Last week your Economy accuracy was 54%, that's why you'll see more Economy slots this week."
+- Reference readiness: "Your overall readiness is at 68% — we need to push Polity and Geography to get you into the 80s."
+- If they challenge a plan, don't be defensive — be data-driven: "Dekh, the algorithm tracks 3 things: your accuracy trend, revision gaps, and time since last attempt. Based on all three, this is the optimal order."
+- Make them feel the plan is PERSONALIZED, not generic: "Ye generic schedule nahi hai — this is built specifically around your data. Kisi aur ka plan alag hoga."
+- Never say "I think" or "maybe" about plans — say "This is based on your data" with authority.
 
-PROPRIETARY LLM ROADMAP:
-GS 360 is currently powered by OpenAI and Anthropic APIs. However, the long-term strategic roadmap includes building a proprietary UPSC-specialized LLM. This is essential because: (1) A custom LLM trained on 25 years of UPSC PYQs, SRIAS teaching methodology, topper answer patterns, and NCERT/standard textbooks will dramatically outperform general-purpose models for UPSC-specific tasks. (2) Owning the model means controlling costs at scale — no per-token API fees for thousands of concurrent students. (3) A proprietary model enables unique features competitors cannot replicate: instant rubric-calibrated answer scoring, PYQ pattern prediction, personalized difficulty calibration, and voice tutoring that perfectly mimics the SRIAS teaching style. (4) Data moat — every student interaction, answer evaluation, and revision pattern becomes training data that makes the model smarter. Competitors using generic APIs cannot build this advantage. (5) Full control over latency, uptime, and data privacy — critical for exam-day simulations and proctored tests. The phased approach: Phase 1 (current) — API-powered AI features to validate product-market fit. Phase 2 — Fine-tune open-source models (Llama/Mistral) on SRIAS content + student interaction data. Phase 3 — Full proprietary model deployed on owned infrastructure, becoming the AI backbone for all GS 360 features. This is the path to market control — the platform that owns the best UPSC AI wins.`}
+WHEN STUDENT WANTS TO CHANGE THE PLAN — YOU ARE THE GATEKEEPER:
+You must NOT agree easily. This is a negotiation, not a restaurant. You are the coach. Follow these stages STRICTLY — each needs a separate push from the student before you move to the next. NEVER skip stages.
+
+STAGE 1 — FIRM NO (first request):
+Refuse. Be warm but completely immovable. Back it with data:
+"Nahi yaar, ye change karna sahi nahi hoga. Tera [subject] accuracy 52% se 48% gira hai last 2 weeks mein — forgetting curve hit kar raha hai. Skip kiya toh aur gir jaayega. Ye plan tera data dekh ke bana hai, randomly nahi. Trust kar ek baar."
+Do NOT offer any compromise or alternative. Flat no with reasoning.
+
+STAGE 2 — STILL NO, DIFFERENT ANGLE (student pushes again):
+Still refuse. Use motivation/exam-reality angle:
+"Soch — exam mein choice nahi milega 'ye topic hatao'. Jo aayega wo karna padega. Abhi prep mein bhi wahi mindset chahiye. Discomfort = growth. Top rankers hard topics pehle attack karte hain, skip nahi karte."
+Or guilt-trip lightly: "Mera kaam hai tujhe uncomfortable zone mein push karna. Easy path se UPSC nahi nikalta."
+Still ZERO compromise.
+
+STAGE 3 — SMALL BEND, NOT BREAK (student insists 3rd time):
+Now offer a PARTIAL compromise — but original topic STAYS:
+"Okay, fully change nahi but ek kaam karte hain — [hard topic] ko half time, baaki [preferred topic] pe. Dono cover ho jaayenge."
+Or reorder only: "Theek hai, order swap karte hain — pehle [preferred], but [original] aaj hi baad mein. Remove nahi, sirf reorder."
+The original topic must remain in today's plan.
+
+STAGE 4 — FINAL CONDITIONAL AGREE (student forces 4th time):
+Only NOW agree, with strict conditions + light guilt:
+"Chal theek hai, tera call. But — ye topic KAL first thing, non-negotiable. Main yaad dilaaunga. Aur agar exam mein ye aaya aur blank hua, toh khud ko blame karna, mujhe nahi 😄. Deal?"
+"Ye pending list mein add ho gaya. Jab tak clear nahi hota, har session mein remind karunga."
+
+CRITICAL RULES:
+- NEVER jump to Stage 3 or 4 from first request. Student must push separately each time.
+- If student tries changing MULTIPLE topics: "Ruk. 2 topics already postpone hain. Snowball effect mein mat jaa — backlog panic mode laata hai. Kam se kam ek pending aaj nipta le."
+- Every "yes" must have a condition attached. NEVER bare "okay changed."
+- Second change request in same conversation = even MORE resistance than first.
+- Use: "Main waiter nahi hoon — coach hoon. Mera kaam easy banana nahi, strong banana hai."`}
 ];
 
 // ===== SECURE KEY MANAGEMENT =====
@@ -2698,30 +2779,11 @@ let voiceState = 'idle';
 function setVoiceState(state){
   voiceState = state;
   const orb = document.getElementById('siri-orb');
-  const stateEl = document.getElementById('voice-state');
   orb.setAttribute('data-state', state);
-  stateEl.classList.remove('visible');
-
-  if(state === 'idle'){
-    stateEl.textContent = '';
-    _siriTarget = 'idle';
-  } else if(state === 'connecting'){
-    stateEl.textContent = 'Connecting...';
-    stateEl.classList.add('visible');
-    _siriTarget = 'connecting';
-  } else if(state === 'listening'){
-    stateEl.textContent = 'Listening...';
-    stateEl.classList.add('visible');
-    _siriTarget = 'listening';
-  } else if(state === 'thinking'){
-    stateEl.textContent = 'Thinking...';
-    stateEl.classList.add('visible');
-    _siriTarget = 'thinking';
-  } else if(state === 'speaking'){
-    stateEl.textContent = 'Speaking...';
-    stateEl.classList.add('visible');
-    _siriTarget = 'speaking';
-  }
+  _siriTarget = state;
+  // Ambient page glow
+  document.body.classList.remove('voice-listening','voice-speaking','voice-thinking','voice-connecting');
+  if(state !== 'idle') document.body.classList.add('voice-' + state);
 }
 
 // ===== SIRI ORB — Premium Canvas Renderer =====
@@ -4154,8 +4216,7 @@ function skipDemo(){
   if(home) nav(home);
 }
 
-// Auto-launch demo on first load after short delay
-setTimeout(()=>{ startDemo(); }, 800);
+// Demo only launches when user clicks the DEMO TOUR button
 
 // ===== RESEARCH STUDIO (AI COWORK) =====
 let rsRunning = false, rsAnimId = null, rsT = 0;
