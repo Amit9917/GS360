@@ -99,19 +99,20 @@ DISCOVER → DIAGNOSE → DECIDE → ONBOARD → EXECUTE → PROVE → ADVOCATE
 
 ## 3. Readiness Test & Onboarding
 
-### Free Readiness Test (15 minutes, no signup)
+### Free Readiness Test (no signup required)
 
-A diagnostic experience that shows students exactly where they stand:
+A quick diagnostic that tells students exactly where they stand — before they commit to anything.
 
-| Step | What Happens |
-|---|---|
-| **Start** | Target year + prep stage selection |
-| **Prelims IQ** | 30 MCQs across GS1–GS4 |
-| **Mains Check** | Upload handwritten answer OR type 200 words — AI evaluates structure, depth, value addition |
-| **Profile** | Optional subject, work status, previous attempts |
-| **Results** | Overall score, paper-wise heatmap, UPSC Twin match, answer quality rubric, gap analysis |
+- **Prelims Check** — MCQs across all GS papers (Polity, Economy, History, Geography, Environment, S&T). The system identifies which subjects the student is strong in and which need serious work.
 
-**Output:** Shareable score card + downloadable PDF report.
+- **Mains Readiness Check** — Student uploads a handwritten answer or types one. AI evaluates it on structure, analytical depth, content accuracy, value addition, and word economy — the same dimensions UPSC examiners look for.
+
+- **Instant Report** — A detailed breakdown including:
+  - Paper-wise heatmap showing strengths and gaps
+  - Gap analysis with specific weak areas highlighted
+  - UPSC Twin match — matched to a topper who had a similar starting profile
+  - Overall readiness score with subject-wise split
+  - Shareable score card (Instagram/WhatsApp ready) + downloadable PDF
 
 ### Day 0–7 Onboarding
 
