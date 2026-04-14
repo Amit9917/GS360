@@ -1,0 +1,67 @@
+# ============================================
+# GS360 + DeepTutor — Docker Compose
+# ============================================
+# Usage:
+#   cp gs360-live/.env.example gs360-live/.env  (and configure)
+#   cp deeptutor/.env.example deeptutor/.env    (and configure)
+#   docker compose up -d
+# ============================================
+
+services:
+  # ── GS360 Backend (FastAPI) ──────────────────────────
+  gs360-backend:
+    build:
+      context: .
+      dockerfile: gs360-live/Dockerfile
+      target: production
+    container_name: gs360-backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT:-8001}:8001"
+    env_file:
+      - gs360-live/.env
+    volumes:
+      - gs360-data:/app/data
+      - ./gs360-live/content-packs:/app/content-packs:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # ── GS360 Frontend (Next.js) ─────────────────────────
+  gs360-frontend:
+    build:
+      context: gs360-live/web
+      dockerfile: Dockerfile
+    container_name: gs360-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE=http://gs360-backend:8001
+    depends_on:
+      gs360-backend:
+        condition: service_healthy
+
+  # ── DeepTutor (Optional — full standalone) ───────────
+  deeptutor:
+    build:
+      context: deeptutor
+      dockerfile: Dockerfile
+      target: production
+    container_name: deeptutor
+    restart: unless-stopped
+    ports:
+      - "3782:3782"
+      - "8002:8001"
+    env_file:
+      - deeptutor/.env
+    volumes:
+      - deeptutor-data:/app/data
+    profiles:
+      - full  # Only start with: docker compose --profile full up
+
+volumes:
+  gs360-data:
+  deeptutor-data:

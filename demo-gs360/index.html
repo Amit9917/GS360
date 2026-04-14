@@ -3,225 +3,939 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GS 360 | IFH Powered Execution Ecosystem</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>GS360 | The Execution-First Ecosystem</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #FFD700;
+      --primary-dark: #B8860B;
+      --accent: #E63946;
+      --bg: #05070A;
+      --surface: #0F1219;
+      --surface-light: #1A1F2B;
+      --text: #F8F9FA;
+      --text-dim: #94A3B8;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --font-head: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Fira Code', monospace;
+      --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .bg-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(184, 134, 11, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(230, 57, 70, 0.05) 0%, transparent 50%);
+    }
+
+    .dots {
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
+      z-index: -1;
+      opacity: 0.5;
+    }
+
+    .presentation {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .sidebar {
+      width: 320px;
+      background: var(--surface);
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      padding: 40px 24px;
+      z-index: 10;
+    }
+
+    .main-content {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand {
+      margin-bottom: 60px;
+    }
+
+    .brand h1 {
+      font-family: var(--font-head);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--primary), var(--text));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand p {
+      font-size: 12px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 4px;
+    }
+
+    .nav {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: auto;
+    }
+
+    .nav-item {
+      padding: 14px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+    }
+
+    .nav-item:hover {
+      background: var(--glass);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      background: var(--surface-light);
+      border-color: var(--glass-border);
+      color: var(--primary);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      opacity: 0.5;
+    }
+
+    .nav-text {
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 60px 100px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .slide-header {
+      margin-bottom: 40px;
+    }
+
+    .slide-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .slide-title {
+      font-family: var(--font-head);
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.1;
+      max-width: 800px;
+      margin-bottom: 20px;
+    }
+
+    .slide-subtitle {
+      font-size: 20px;
+      color: var(--text-dim);
+      max-width: 700px;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    .card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 32px;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      border-color: rgba(255, 215, 0, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-5px);
+    }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .card-title {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .pricing-grid {
+      margin-top: 40px;
+    }
+
+    .pricing-card {
+      text-align: center;
+      border-radius: 24px;
+      padding: 48px 32px;
+    }
+
+    .pricing-card.popular {
+      border-color: var(--primary);
+      background: radial-gradient(circle at top right, rgba(216, 175, 43, 0.1), transparent);
+    }
+
+    .price {
+      font-size: 48px;
+      font-weight: 800;
+      margin: 20px 0;
+      font-family: var(--font-head);
+    }
+
+    .price span {
+      font-size: 16px;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-top: 24px;
+      text-align: left;
+    }
+
+    .feature-list li {
+      font-size: 14px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .feature-list li::before {
+      content: "\2713";
+      color: var(--primary);
+      font-weight: 900;
+    }
+
+    .chart-container {
+      width: 100%;
+      height: 400px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    .roadmap {
+      display: flex;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .roadmap-step {
+      flex: 1;
+      position: relative;
+      padding: 24px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+    }
+
+    .roadmap-week {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .roadmap-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .roadmap-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .active .card {
+      animation: fadeIn 0.8s backwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+
+    .footer {
+      margin-top: auto;
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      font-family: var(--font-head);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-primary { background: var(--primary); color: #000; }
+    .btn-primary:hover { transform: scale(1.05); box-shadow: 0 10px 20px -5px var(--primary-dark); }
+    .btn-glass { background: var(--glass); color: var(--text); border: 1px solid var(--glass-border); }
+    .btn-glass:hover { background: var(--glass-border); color: #fff; }
+
+    @media (max-width: 1280px) {
+      .slide {
+        padding: 40px 48px;
+      }
+
+      .slide-title {
+        font-size: 44px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 88px;
+        padding: 26px 10px;
+      }
+
+      .brand p,
+      .nav-text {
+        display: none;
+      }
+
+      .nav-item {
+        justify-content: center;
+        padding: 12px;
+      }
+
+      .slide {
+        padding: 32px;
+      }
+
+      .slide-title {
+        font-size: 36px;
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .roadmap {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 760px) {
+      body {
+        overflow: auto;
+        height: auto;
+      }
+
+      .presentation {
+        display: block;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--glass-border);
+        padding: 16px;
+        position: sticky;
+        top: 0;
+        backdrop-filter: blur(8px);
+        background: rgba(15, 18, 25, 0.92);
+      }
+
+      .brand {
+        margin-bottom: 14px;
+      }
+
+      .brand p,
+      .nav-num,
+      .nav-text {
+        display: initial;
+      }
+
+      .nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        max-height: 190px;
+      }
+
+      .nav-item {
+        justify-content: flex-start;
+        padding: 10px 12px;
+      }
+
+      .main-content {
+        min-height: calc(100vh - 250px);
+        overflow: visible;
+        display: block;
+      }
+
+      .slide {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: calc(100vh - 280px);
+        padding: 24px 16px 80px;
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        transition: none;
+        overflow: visible;
+      }
+
+      .slide.active {
+        display: flex;
+      }
+
+      .slide-title {
+        font-size: 30px;
+      }
+
+      .slide-subtitle {
+        font-size: 16px;
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-container {
+        height: 280px;
+        padding: 14px;
+      }
+
+      .roadmap {
+        flex-direction: column;
+      }
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+
+  </style>
 </head>
 <body>
-  <!-- Toast Notification -->
-  <div id="toast">
-    <i class="fa-solid fa-trophy"></i>
-    <span id="toastMsg">Streak Maintained! +50 XP</span>
-  </div>
 
-  <!-- Voice Call Overlay -->
-  <div class="call-overlay" id="callOverlay">
-    <div class="caller-avatar"><i class="fa-solid fa-user-tie fa-4x"></i></div>
-    <h2>AI Strategy Mentor calling...</h2>
-    <p style="margin-top:10px; opacity:0.8;">Regarding your low recall in Economy</p>
-    <div class="call-actions">
-      <button class="call-btn decline" onclick="declineCall()"><i class="fa-solid fa-phone-slash"></i></button>
-      <button class="call-btn accept" onclick="acceptCall()"><i class="fa-solid fa-phone"></i></button>
-    </div>
-  </div>
+<div class="bg-glow"></div>
+<div class="dots"></div>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="logo-section">
-      <div class="logo-icon">GS</div>
-      <div class="logo-text"><h1>GS <span style="color:var(--ifh-accent)">360</span></h1></div>
-    </div>
-    <div class="progress-container">
-      <span class="progress-text" id="progLabel">Milestone: 33.33%</span>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" id="pb"></div></div>
-      <button class="lang-btn" id="langToggle">ENG / HI</button>
-    </div>
-    <div class="user-nav"><i class="fa-solid fa-bell"></i><i class="fa-solid fa-circle-user fa-xl"></i></div>
-  </div>
-
-  <div class="app-container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <a href="#" class="sidebar-item active" data-view="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a>
-      <a href="#" class="sidebar-item" data-view="command"><i class="fa-solid fa-terminal"></i> Command Center</a>
-      <a href="#" class="sidebar-item" data-view="learning"><i class="fa-solid fa-graduation-cap"></i> Learning Lab</a>
-      <a href="#" class="sidebar-item" data-view="path"><i class="fa-solid fa-route"></i> Smart Path</a>
-      <a href="#" class="sidebar-item" data-view="box"><i class="fa-solid fa-box-open"></i> Aspirant's Box</a>
-      <a href="#" class="sidebar-item" data-view="community"><i class="fa-solid fa-users"></i> Study Pods</a>
-      <div style="flex:1"></div>
-      <a href="#" class="sidebar-item" onclick="toggleBot()"><i class="fa-solid fa-headset" style="color:var(--ifh-accent)"></i> AI Mentor</a>
+<div class="presentation">
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>GS360</h1>
+      <p>Execution Ecosystem</p>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-      
-      <!-- VIEW: DASHBOARD -->
-      <section id="view-dashboard" class="view active">
-        <div class="dashboard-hero">
-          <div class="readiness-dial">
-            <span class="score-label">Readiness Score</span>
-            <div class="score-num" id="mainScore">42</div>
-            <p style="font-size:14px; opacity:0.8; margin-top:10px;">+16 since enrollment</p>
-          </div>
-          <div class="card" style="padding:24px;">
-            <h3>Subject Heatmap</h3>
-            <div class="heatmap-card" style="margin-top:16px;">
-              <div class="heat-box"><span class="dot green"></span><span>Polity</span></div>
-              <div class="heat-box"><span class="dot green"></span><span>History</span></div>
-              <div class="heat-box"><span class="dot orange"></span><span>Economy</span></div>
-              <div class="heat-box"><span class="dot red"></span><span>Env/S&T</span></div>
+    <nav class="nav">
+      <div class="nav-item active" onclick="goToSlide(0)">
+        <span class="nav-num">01</span>
+        <span class="nav-text">Vision</span>
+      </div>
+      <div class="nav-item" onclick="goToSlide(1)">
+        <span class="nav-num">02</span>
+        <span class="nav-text">The Truth</span>
+      </div>
+      <div class="nav-item" onclick="goToSlide(2)">
+        <span class="nav-num">03</span>
+        <span class="nav-text">Command Center</span>
+      </div>
+      <div class="nav-item" onclick="goToSlide(3)">
+        <span class="nav-num">04</span>
+        <span class="nav-text">AI Intelligence</span>
+      </div>
+      <div class="nav-item" onclick="goToSlide(4)">
+        <span class="nav-num">05</span>
+        <span class="nav-text">Aspirant's Box</span>
+      </div>
+      <div class="nav-item" onclick="goToSlide(5)">
+        <span class="nav-num">06</span>
+        <span class="nav-text">Pricing</span>
+      </div>
+      <div class="nav-item" onclick="goToSlide(6)">
+        <span class="nav-num">07</span>
+        <span class="nav-text">Market Potential</span>
+      </div>
+      <div class="nav-item" onclick="goToSlide(7)">
+        <span class="nav-num">08</span>
+        <span class="nav-text">GTM Strategy</span>
+      </div>
+      <div class="nav-item" onclick="goToSlide(8)">
+        <span class="nav-num">09</span>
+        <span class="nav-text">Financial Model</span>
+      </div>
+      <div class="nav-item" onclick="goToSlide(9)">
+        <span class="nav-num">10</span>
+        <span class="nav-text">The ROI</span>
+      </div>
+    </nav>
+
+    <div class="footer">
+      <button class="btn btn-primary" style="width: 100%;" onclick="nextSlide()">Next Step -></button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <section class="slide active" id="slide-0">
+      <div class="slide-header">
+        <span class="slide-tag">The Master Vision</span>
+        <h2 class="slide-title">Not another course. <span style="color: var(--primary);">A system that improves marks.</span></h2>
+        <p class="slide-subtitle">1M+ aspirants are stuck in "Infinite Content Consumption" loops. We move from "Watch more lectures" to "Perform more daily tasks."</p>
+      </div>
+      <div class="grid grid-3">
+        <div class="card">
+          <span class="card-icon">🎯</span>
+          <h3 class="card-title">Execution First</h3>
+          <p class="card-desc">Zero-friction daily tasks mapped to 25-year PYQ patterns.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">⚖️</span>
+          <h3 class="card-title">RAG-Hardened</h3>
+          <p class="card-desc">AI answers grounded strictly in verified community content packs.</p>
+        </div>
+        <div class="card">
+          <span class="card-icon">🚀</span>
+          <h3 class="card-title">Results-as-a-Service</h3>
+          <p class="card-desc">The only platform focused on measurable student progress daily.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-1">
+      <div class="slide-header">
+        <span class="slide-tag">Market Reality</span>
+        <h2 class="slide-title">Content is a <span style="color: var(--accent);">Commodity.</span></h2>
+        <p class="slide-subtitle">Lack of content isn't the problem. Lack of structure, discipline, and personalized feedback is why students fail.</p>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 class="card-title">The Gap</h3>
+          <p class="card-desc">Books, PDFs, and YT lectures are everywhere. But a structured path to mastery is missing. Serious aspirants are shifting from volume to clarity.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Our Solution</h3>
+          <p class="card-desc">We don't give "more" content. We index existing content and turn it into actionable tasks, daily goals, and instant feedback loops.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2">
+      <div class="slide-header">
+        <span class="slide-tag">Product Core</span>
+        <h2 class="slide-title">The Daily <span style="color: var(--primary);">Command Center</span></h2>
+        <p class="slide-subtitle">Every morning, the student's dashboard decides the path to victory. No more analysis paralysis.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="card">
+          <h3 class="card-title">Study</h3>
+          <p class="card-desc">Topics mapped to high-yield PYQ patterns.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Revise</h3>
+          <p class="card-desc">AI-triggered spaced repetition sessions.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Write</h3>
+          <p class="card-desc">Daily answer writing with instant AI scoring.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Fix</h3>
+          <p class="card-desc">Data-backed weakness detection and correction.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3">
+      <div class="slide-header">
+        <span class="slide-tag">AI Layer</span>
+        <h2 class="slide-title">24/7 AI-Powered <span style="color: var(--primary);">Performance Layer</span></h2>
+        <p class="slide-subtitle">A unique, self-evolving brain for every student. Powered by our custom DeepTutor agent-native engine.</p>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 class="card-title">Smart Study Engine</h3>
+          <p class="card-desc">A unique plan per student that rewrites itself every Sunday based on performance data.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">AI Voice Bot</h3>
+          <h4 style="font-size: 11px; color: var(--text-dim);">DOUBT RESOLUTION • VERBAL QUIZZES</h4>
+          <p class="card-desc">Interview simulation and instant doubt solving available around the clock.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Readiness Score</h3>
+          <p class="card-desc">A live 0-100 score predicting Prelims and Mains success with 85%+ correlation.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Content Mapping</h3>
+          <p class="card-desc">Every topic is mapped across PYQs, CA, and Syllabus with single-click RAG retrieval.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4">
+      <div class="slide-header">
+        <span class="slide-tag">Offline Bridge</span>
+        <h2 class="slide-title">The Physical <span style="color: var(--primary);">Aspirant's Box</span></h2>
+        <p class="slide-subtitle">Eliminating resource shopping friction. We provide the tools; you provide the effort.</p>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 class="card-title">Welcome Kit</h3>
+          <p class="card-desc">30+ Standard books (NCERT + Reference) + Premium Stationery + Exclusive SRIAS Compiled Notes.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Monthly Deliveries</h3>
+          <p class="card-desc">Sealed physical Prelims/Mains test papers + OMRs + Answer booklets. Experience the exam hall at home.</p>
+        </div>
+      </div>
+      <p style="margin-top: 20px; color: var(--text-dim); font-size: 14px; text-align: center;">Result: 3,000 students = 3,000 organic influencers performing unboxing rituals.</p>
+    </section>
+
+    <section class="slide" id="slide-5">
+      <div class="slide-header">
+        <span class="slide-tag">Business Model</span>
+        <h2 class="slide-title">Subscription <span style="color: var(--primary);">Tiers</span></h2>
+      </div>
+      <div class="grid grid-3 pricing-grid">
+        <div class="card pricing-card">
+          <h3 class="card-title">Core</h3>
+          <div class="price">₹2,499<span>/mo</span></div>
+          <ul class="feature-list">
+            <li>AI Command Center</li>
+            <li>Digital Content Packs</li>
+            <li>Verbal Quizzing</li>
+          </ul>
+        </div>
+        <div class="card pricing-card popular">
+          <h3 class="card-title">Pro</h3>
+          <div class="price">₹4,499<span>/mo</span></div>
+          <ul class="feature-list">
+            <li><strong>Aspirant's Box Kit</strong></li>
+            <li>30+ Physical Books</li>
+            <li>Monthly Test Packs</li>
+            <li>Priority AI Response</li>
+          </ul>
+        </div>
+        <div class="card pricing-card">
+          <h3 class="card-title">Elite</h3>
+          <div class="price">₹7,499<span>/mo</span></div>
+          <ul class="feature-list">
+            <li>Personalized Mentorship</li>
+            <li>Mains Answer Checking</li>
+            <li>Physical Welcome Kit</li>
+            <li>Interview Simulations</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6">
+      <div class="slide-header">
+        <span class="slide-tag">Market Size</span>
+        <h2 class="slide-title">India's <span style="color: var(--accent);">Gold Mine</span></h2>
+        <p class="slide-subtitle">UPSC is the 2nd largest professional exam in India. Highly serious, highly spending audience.</p>
+      </div>
+      <div class="chart-container">
+        <canvas id="marketChart"></canvas>
+      </div>
+      <p style="margin-top: 20px; font-size: 14px; color: var(--text-dim);">Target SOM: 6,000 students (1.5% of serious market). Competitive Edge: Proof of Progress.</p>
+    </section>
+
+    <section class="slide" id="slide-7">
+      <div class="slide-header">
+        <span class="slide-tag">Go-To-Market</span>
+        <h2 class="slide-title">The <span style="color: var(--primary);">Readiness</span> Strategy</h2>
+        <p class="slide-subtitle">We don't sell GS. We sell results via an optimized conversion funnel.</p>
+      </div>
+      <div class="grid grid-4">
+        <div class="card">
+          <span class="nav-num">1</span>
+          <h3 class="card-title">Magnet</h3>
+          <p class="card-desc">Free 15-min "UPSC Readiness Test" diagnostics tool.</p>
+        </div>
+        <div class="card">
+          <span class="nav-num">2</span>
+          <h3 class="card-title">Trial</h3>
+          <p class="card-desc">7-Day full access trial to the AI Command Center.</p>
+        </div>
+        <div class="card">
+          <span class="nav-num">3</span>
+          <h3 class="card-title">Subscribe</h3>
+          <p class="card-desc">Convert to Monthly for low-friction onboarding.</p>
+        </div>
+        <div class="card">
+          <span class="nav-num">4</span>
+          <h3 class="card-title">Upgrade</h3>
+          <p class="card-desc">70% target conversion to Yearly for cashflow.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-8">
+      <div class="slide-header">
+        <span class="slide-tag">Projections</span>
+        <h2 class="slide-title">Financial <span style="color: var(--primary);">Integrity</span></h2>
+        <p class="slide-subtitle">Sustainable profitability with 6,000 students across Pro & Yearly tiers.</p>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 class="card-title">Cost Per Student</h3>
+          <div class="roadmap" style="flex-direction: column;">
+            <div class="roadmap-step">
+              <span class="roadmap-week">MARKETING</span>
+              <div class="roadmap-title">₹8,000 CAC</div>
             </div>
-            <div class="alert-box">
-              <i class="fa-solid fa-phone-volume"></i> <strong>Recall Drop:</strong> Your Monetary Policy recall is below 30%. AI Mentor scheduled call.
+            <div class="roadmap-step" style="border-color: var(--accent);">
+              <span class="roadmap-week">MATERIALS</span>
+              <div class="roadmap-title">₹10,200 COGS</div>
             </div>
           </div>
         </div>
         <div class="card">
-          <h3>Current Streak</h3>
-          <div style="display:flex; gap:8px; margin-top:16px;">
-            <div class="streak-day active">M</div><div class="streak-day active">T</div><div class="streak-day active">W</div>
-            <div class="streak-day current">T</div><div class="streak-day">F</div><div class="streak-day">S</div><div class="streak-day">S</div>
-          </div>
+          <h3 class="card-title">Annual P&L</h3>
+          <ul class="feature-list">
+            <li><strong>Revenue:</strong> ₹22.88 Cr (Post-GST)</li>
+            <li><strong>Opex:</strong> ₹2.4 Cr (Tech + Cloud)</li>
+            <li><strong>Burn:</strong> ₹14.42 Cr (Total)</li>
+            <li style="color: var(--primary); font-size: 20px; margin-top: 20px;"><strong>EBITDA: ₹8.46 Cr</strong></li>
+          </ul>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- VIEW: COMMAND CENTER -->
-      <section id="view-command" class="view">
-        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px;">
-          <div>
-            <div class="card" style="margin-bottom:24px;">
-              <h3>Mission 34: Economy</h3>
-              <div class="mission-item completed"><div class="mission-check"><i class="fa-solid fa-check"></i></div><div class="mission-info"><h4>STEP 1: LEARN</h4><p>NCERT Mapping Completed.</p></div></div>
-              <div class="mission-item current"><div class="mission-check">2</div><div class="mission-info"><h4>STEP 2: WRITE</h4><p>Question #437 Active.</p></div></div>
-            </div>
-            <div class="card">
-              <h2 style="font-size:18px; margin-bottom:16px;">Evaluate RBI's role in balancing growth vs inflation.</h2>
-              <div class="editor-placeholder" id="drop-zone"><i class="fa-solid fa-camera fa-2x"></i><p>Scan Answer Sheet</p></div>
-              <button class="submit-btn" id="subBtn">Submit for AI Feedback</button>
-            </div>
-          </div>
-          <div class="side-panel">
-            <div class="card"><h4>Live Stats</h4><p style="font-size:12px; margin-top:8px;"><strong>4.8k</strong> students writing now.</p></div>
-          </div>
+    <section class="slide" id="slide-9">
+      <div class="slide-header">
+        <span class="slide-tag">Execution Plan</span>
+        <h2 class="slide-title">The <span style="color: var(--primary);">16-Week</span> Sprint</h2>
+      </div>
+      <div class="roadmap">
+        <div class="roadmap-step">
+          <span class="roadmap-week">W0-2</span>
+          <div class="roadmap-title">Foundation</div>
+          <p class="roadmap-desc">Multi-tenancy spike & Auth integration.</p>
         </div>
-      </section>
-
-      <!-- VIEW: LEARNING LAB -->
-      <section id="view-learning" class="view">
-        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px;">
-          <div>
-            <div class="card" style="padding:0; overflow:hidden;">
-              <div style="background:#111; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; color:white;">
-                <i class="fa-solid fa-play-circle fa-4x" style="cursor:pointer"></i>
-              </div>
-              <div style="padding:20px;"><h3>Lecture: Monetary Policy Essentials</h3><p style="font-size:12px; color:var(--ifh-muted);">Sri Ram IAS | Day 34</p></div>
-            </div>
-          </div>
-          <div>
-            <div class="card" style="background:var(--ifh-primary); color:white; text-align:center;">
-              <h4>Micro-Recall Flashcards</h4>
-              <div class="flashcard-container" onclick="flipCard()">
-                <div class="flashcard" id="cardInner">
-                  <div class="flashcard-front"><p>Describe LAF Corridor</p></div>
-                  <div class="flashcard-back" style="color:var(--ifh-text); font-size:12px;"><p>Tool for short-term liquidity management via Repo/Reverse Repo.</p></div>
-                </div>
-              </div>
-              <p style="font-size:10px; margin-top:16px;">14 Cards Remaining</p>
-            </div>
-          </div>
+        <div class="roadmap-step">
+          <span class="roadmap-week">W3-6</span>
+          <div class="roadmap-title">Core AI</div>
+          <p class="roadmap-desc">RAG baseline, Notes, Quizzes.</p>
         </div>
-      </section>
-
-      <!-- VIEW: SMART PATH (ADAPTIVE ROADMAP) -->
-      <section id="view-path" class="view">
+        <div class="roadmap-step">
+          <span class="roadmap-week">W7-10</span>
+          <div class="roadmap-title">Design</div>
+          <p class="roadmap-desc">GS360 Command Center UI/UX.</p>
+        </div>
+        <div class="roadmap-step">
+          <span class="roadmap-week">W11-13</span>
+          <div class="roadmap-title">Content</div>
+          <p class="roadmap-desc">Seed packs & Expert review.</p>
+        </div>
+        <div class="roadmap-step">
+          <span class="roadmap-week">W14-16</span>
+          <div class="roadmap-title">Launch</div>
+          <p class="roadmap-desc">PWA, SEO & Soft Launch.</p>
+        </div>
+      </div>
+      <div class="grid grid-2" style="margin-top: 30px;">
+        <div class="card" style="border-color: var(--primary); background: rgba(255, 215, 0, 0.05);">
+          <h3 class="card-title">ROI: 470%</h3>
+          <p class="card-desc">Projected return on initial development cost (₹1.8 Cr invest -> ₹8.46 Cr profit).</p>
+        </div>
         <div class="card">
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-             <h3>Your Adaptive Roadmap</h3>
-             <span style="font-size:12px; color:var(--ifh-primary); font-weight:700;">Target: UPSC Mains 2026</span>
-          </div>
-          
-          <div class="roadmap-grid" style="margin-top:40px;">
-            <div class="roadmap-phase completed">
-              <div class="phase-header"><span class="phase-num">1</span><h4>Foundation</h4></div>
-              <p>NCERT focus & basic concept building.</p>
-              <div class="phase-status">100% Complete</div>
-            </div>
-            
-            <div class="roadmap-connector active"></div>
-            
-            <div class="roadmap-phase current">
-              <div class="phase-header"><span class="phase-num">2</span><h4>Integration</h4></div>
-              <p>Current Affairs + Main Answer Writing.</p>
-              <div class="phase-status">Day 34 / 120</div>
-            </div>
-
-            <div class="roadmap-connector"></div>
-
-            <div class="roadmap-phase">
-              <div class="phase-header"><span class="phase-num">3</span><h4>Mastery</h4></div>
-              <p>Simulated Full-length tests & PYQs.</p>
-              <div class="phase-status">Unlocked in June</div>
-            </div>
-          </div>
+          <h3 class="card-title">Break-even</h3>
+          <p class="card-desc">Only 1,729 students required on the Pro Tier to achieve full project break-even.</p>
         </div>
-      </section>
+      </div>
+    </section>
+  </main>
+</div>
 
-      <!-- VIEW: ASPIRANT'S BOX (PHYSICAL LOGISTICS) -->
-      <section id="view-box" class="view">
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
-          <!-- Product Inventory -->
-          <div class="card" style="padding:0; overflow:hidden;">
-            <div class="box-render">
-              <i class="fa-solid fa-boxes-stacked fa-4x" style="color:var(--ifh-primary); opacity:0.8;"></i>
-              <div class="box-overlay-label">GS360 Premium Welcome Kit</div>
-            </div>
-            <div style="padding:24px;">
-              <h3>Physical Supply Chain</h3>
-              <div class="inventory-list" style="margin-top:16px;">
-                 <div class="inventory-item"><i class="fa-solid fa-book"></i> <span>12 NCERT Workbooks</span><span class="badge ok">Received</span></div>
-                 <div class="inventory-item"><i class="fa-solid fa-pen-nib"></i> <span>Mains Answer Sheets (300)</span><span class="badge shipping">In Transit</span></div>
-                 <div class="inventory-item"><i class="fa-solid fa-map"></i> <span>UPSC Trend Wall Maps</span><span class="badge soon">Next Box</span></div>
-              </div>
-            </div>
-          </div>
+<script>
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const navItems = document.querySelectorAll('.nav-item');
 
-          <!-- Shipping Tracker -->
-          <div class="card">
-             <h3>Live Shipment Tracking</h3>
-             <div class="tracking-timeline" style="margin-top:24px;">
-                <div class="track-step completed"><div class="track-dot"></div><span>Order Dispatched (Delhi)</span></div>
-                <div class="track-step active"><div class="track-dot"></div><span>Out for Delivery (Hub-7)</span></div>
-                <div class="track-step"><div class="track-dot"></div><span>Delivered to Aspirant</span></div>
-             </div>
-             <button class="submit-btn" style="margin-top:40px; background:var(--ifh-primary);">Contact Support</button>
-          </div>
-        </div>
-      </section>
+  function goToSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    navItems[currentSlide].classList.remove('active');
 
-      <!-- VIEW: COMMUNITY -->
-      <section id="view-community" class="view">
-        <div class="card"><h3>Study Pod 7 Leaderboard</h3>
-        <div style="margin-top:16px; font-size:13px;"><div>1. Ananya S. (892 XP)</div><div style="color:var(--ifh-primary); font-weight:700;">2. You (847 XP)</div></div>
-        </div>
-      </section>
+    currentSlide = n;
 
-    </div>
-  </div>
+    slides[currentSlide].classList.add('active');
+    navItems[currentSlide].classList.add('active');
 
-  <!-- News Ticker -->
-  <div class="ticker-wrap"><div class="ticker">
-    <div class="ticker-item">UPSC 2026 Calendar Released.</div>
-    <div class="ticker-item">New Model Answers for Geography Optional.</div>
-  </div></div>
+    if (n === 6) initChart();
+  }
 
-  <!-- AI Bot -->
-  <div class="bot-overlay" id="bot">
-    <div class="bot-header"><h4>GS 360 AI Assistant</h4><i class="fa-solid fa-xmark" onclick="toggleBot()"></i></div>
-    <div class="bot-body" id="botBody"></div>
-    <div class="bot-footer"><input type="text" placeholder="Ask AI..."><i class="fa-solid fa-microphone" onclick="startVoice()"></i></div>
-  </div>
+  function nextSlide() {
+    if (currentSlide < slides.length - 1) {
+      goToSlide(currentSlide + 1);
+    } else {
+      goToSlide(0);
+    }
+  }
 
-  <script src="app.js"></script>
+  let chartLoaded = false;
+  function initChart() {
+    if (chartLoaded) return;
+    const ctx = document.getElementById('marketChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['TAM (Prelims)', 'SAM (Serious)', 'SOM (Target)'],
+        datasets: [{
+          label: 'Aspirants',
+          data: [1200000, 400000, 6000],
+          backgroundColor: ['rgba(255, 255, 255, 0.1)', 'rgba(59, 130, 246, 0.5)', 'rgba(255, 215, 0, 0.8)'],
+          borderColor: 'rgba(255, 255, 255, 0.2)',
+          borderWidth: 1,
+          borderRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: { color: 'rgba(255,255,255,0.05)' },
+            ticks: { color: '#94A3B8' }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { color: '#F8F9FA', font: { family: 'Outfit', weight: 'bold' } }
+          }
+        },
+        plugins: {
+          legend: { display: false }
+        }
+      }
+    });
+    chartLoaded = true;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+    if (e.key === 'ArrowLeft') {
+      if (currentSlide > 0) goToSlide(currentSlide - 1);
+    }
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(() => {
+        // Keep demo running even if service worker registration fails.
+      });
+    });
+  }
+</script>
+
 </body>
 </html>

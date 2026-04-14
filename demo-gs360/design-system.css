@@ -1,0 +1,34 @@
+:root {
+  --gs-color-bg: #05070A;
+  --gs-color-surface: #0F1219;
+  --gs-color-text: #F8F9FA;
+  --gs-color-muted: #94A3B8;
+  --gs-color-primary: #FFD700;
+  --gs-color-accent: #E63946;
+  --gs-radius-card: 20px;
+  --gs-space-1: 8px;
+  --gs-space-2: 12px;
+  --gs-space-3: 16px;
+  --gs-space-4: 24px;
+  --gs-space-5: 32px;
+}
+
+.gs-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--gs-radius-card);
+  padding: var(--gs-space-5);
+  color: var(--gs-color-text);
+}
+
+.gs-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gs-space-4);
+}
+
+@media (max-width: 900px) {
+  .gs-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
