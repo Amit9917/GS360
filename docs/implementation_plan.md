@@ -19,8 +19,9 @@
 9. [Integration Reality Check](#-integration-reality-check)
 10. [Team & Capacity Model](#-team--capacity-model)
 11. [16-Week Timeline](#-16-week-timeline)
-12. [Cost Model](#-honest-cost-model)
-13. [Operational Runbook](#-operational-runbook)
+12. [Post-v1 Roadmap (Phase 5)](#-post-v1-roadmap-phase-5-content-bootstrap--current-affairs-pipeline)
+13. [Cost Model](#-honest-cost-model)
+14. [Operational Runbook](#-operational-runbook)
 
 ---
 
@@ -1016,6 +1017,42 @@ AI does NOT reduce: integration debugging, security review, testing, deployment
 ║                                                                  ║
 ╚══════════════════════════════════════════════════════════════════╝
 ```
+
+---
+
+## 🧭 Post-v1 Roadmap (Phase 5): Content Bootstrap + Current Affairs Pipeline
+
+Tracking ticket: [Issue #20](https://github.com/JINA-CODE-SYSTEMS/GS360/issues/20)
+
+### Goal
+
+Ship a compliant, local-first content bootstrap and current-affairs ingestion pipeline so a new user can install GS360 and immediately start with a high-quality baseline notebook.
+
+### Scope
+
+| Stream | Deliverable | Notes |
+|---|---|---|
+| Starter notebook packs | Manifest-driven auto-download | Store manifests/metadata in Git, not copyrighted files |
+| Source compliance | License metadata + policy checks | Prefer public-domain/open-license and user-provided sources |
+| Local ingestion | Download → validate → index | One-command local bootstrap |
+| Current affairs | Connector framework + scheduler | Prioritize RSS/API/allowed sources first |
+| Quality controls | Dedupe + tagging + source citations | UPSC-friendly summaries with traceable provenance |
+
+### Milestones
+
+| Milestone | Outcome |
+|---|---|
+| A | Manifest schema, downloader, checksum validation |
+| B | Local indexing and one-command starter setup |
+| C | Current-affairs connector + normalized article schema |
+| D | Summarization, tagging, scheduling, and resilience tests |
+
+### Acceptance Criteria
+
+- Fresh local install can bootstrap starter knowledge with one command.
+- Chat answers include source metadata for ingested content.
+- Daily current-affairs sync appends into knowledge bases reliably.
+- Pipeline handles source errors with retries and safe fallback behavior.
 
 ---
 
