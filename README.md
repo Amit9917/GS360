@@ -66,6 +66,18 @@ graph TD
 2.  **Scaffold**: Follow instructions in [CONTRIBUTING.md](CONTRIBUTING.md) to initialize the backend and frontend submodules.
 3.  **Run**: `docker-compose up`
 
+### Dev Branch Local Run (Latest)
+For active development on `dev`, run the GS360 backend and web app directly:
+
+1. Start backend: `python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload` from `gs360-live/backend`
+2. Start frontend: `npm run dev` from `gs360-live/web`
+3. Open: `http://localhost:3000`
+
+Notes:
+- Frontend API base should target `http://localhost:8000` in `gs360-live/web/.env.local`.
+- If you see `Invalid token: Signature verification failed`, clear stale local login state by reloading and logging in again.
+- DeepTutor `deep_solve` and `deep_research` can require extra DeepTutor config assets; GS360 dev fallback now keeps these sections functional with direct LLM responses.
+
 ---
 
 ## 🔌 Content Ecosystem
