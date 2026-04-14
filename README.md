@@ -58,13 +58,52 @@ graph TD
 
 ### Infrastructure Requirements
 - **Hardware**: 4GB+ RAM for local vector operations.
-- **API**: Gemini API Key (Pro/Flash free tier).
-- **Runtime**: Python 3.11 + Node.js 20.
+- **Runtime**: Python 3.11+ and Node.js 20+.
+- **Package managers**: `pip` and `npm`.
+- **Optional**: Docker + Docker Compose for containerized run.
 
 ### Installation
-1.  **Clone**: `git clone https://github.com/JINA-CODE-SYSTEMS/GS360.git`
-2.  **Scaffold**: Follow instructions in [CONTRIBUTING.md](CONTRIBUTING.md) to initialize the backend and frontend submodules.
-3.  **Run**: `docker-compose up`
+1. **Clone**
+
+    ```bash
+    git clone https://github.com/JINA-CODE-SYSTEMS/GS360.git
+    cd GS360
+    ```
+
+2. **Backend dependencies**
+
+    ```bash
+    cd gs360-live
+    python -m venv .venv
+    .venv\Scripts\activate
+    pip install -r requirements.txt
+    ```
+
+3. **Frontend dependencies**
+
+    ```bash
+    cd web
+    npm install
+    ```
+
+4. **Environment files**
+- Create `gs360-live/.env` from `gs360-live/.env.example`
+- Create `gs360-live/web/.env.local` and set `NEXT_PUBLIC_API_BASE=http://localhost:8000`
+
+5. **Run (local)**
+- Backend (from `gs360-live/backend`):
+
+  ```bash
+  python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+  ```
+
+- Frontend (from `gs360-live/web`):
+
+  ```bash
+  npm run dev
+  ```
+
+- Open `http://localhost:3000`
 
 ### Dev Branch Local Run (Latest)
 For active development on `dev`, run the GS360 backend and web app directly:
@@ -77,6 +116,118 @@ Notes:
 - Frontend API base should target `http://localhost:8000` in `gs360-live/web/.env.local`.
 - If you see `Invalid token: Signature verification failed`, clear stale local login state by reloading and logging in again.
 - DeepTutor `deep_solve` and `deep_research` can require extra DeepTutor config assets; GS360 dev fallback now keeps these sections functional with direct LLM responses.
+
+### Docker Run
+From repo root:
+
+```bash
+docker compose up --build
+```
+
+Expected ports:
+- Frontend: `3000`
+- Backend: `8000`
+
+---
+
+## 🔐 Environment Configuration
+
+### Required keys (`gs360-live/.env`)
+- `LLM_BINDING=openai`
+- `LLM_MODEL=gpt-4o-mini`
+- `LLM_API_KEY=<your-key>`
+- `LLM_HOST=https://api.openai.com/v1`
+
+### Recommended keys
+- `EMBEDDING_API_KEY=<your-key>`
+- `GS360_SECRET_KEY=<long-random-secret>`
+
+### Frontend (`gs360-live/web/.env.local`)
+- `NEXT_PUBLIC_API_BASE=http://localhost:8000`
+
+Security guidance:
+- Never commit `.env` files.
+- Rotate keys if exposed in logs/chat history.
+
+---
+
+## 🧩 Current API Surface (Backend)
+
+Core endpoints:
+- `GET /health`
+- `POST /auth/token`
+- `POST /api/chat`
+- `POST /api/solve`
+- `POST /api/research`
+- `POST /api/quiz`
+- `GET /api/knowledge`
+- `POST /api/knowledge`
+- `POST /api/notes`
+- `POST /api/eval/live`
+- `GET /api/packs`
+- `POST /api/guide/generate`
+
+Realtime:
+- `WS /ws/chat?token=<jwt>`
+
+---
+
+## 🧪 Troubleshooting
+
+### 1) `Failed to fetch` on login
+Cause: frontend points to wrong backend port.
+
+Fix:
+- Set `NEXT_PUBLIC_API_BASE=http://localhost:8000` in `gs360-live/web/.env.local`.
+- Restart frontend dev server.
+
+### 2) `Invalid token: Signature verification failed`
+Cause: stale JWT in browser localStorage after backend secret/key updates.
+
+Fix:
+- Refresh page and login again.
+- The frontend now auto-clears token on `401` and returns to login.
+
+### 3) Next.js runtime chunk errors (example: `Cannot find module './778.js'`)
+Cause: stale `.next` build cache.
+
+Fix:
+
+```bash
+cd gs360-live/web
+rm -rf .next
+npm run dev
+```
+
+### 4) `uvicorn` not found
+Cause: missing backend dependencies or wrong interpreter.
+
+Fix:
+- Activate virtual env and install requirements:
+
+```bash
+cd gs360-live
+.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 5) DeepTutor capability-specific config errors (`deep_solve`, `deep_research`)
+Cause: missing DeepTutor runtime config assets in local environment.
+
+Current behavior:
+- Chat uses DeepTutor turn runtime.
+- Solve/Research routes use robust direct-LLM fallback in dev so UI remains usable.
+
+---
+
+## 📁 Repository Layout
+
+- `gs360-live/backend`: FastAPI backend + DeepTutor bridge
+- `gs360-live/web`: Next.js frontend
+- `gs360-live/core`: shared domain/runtime helpers
+- `gs360-live/scripts`: validation, ingest, and evaluation scripts
+- `demo-gs360`: standalone demo UI assets
+- `docs`: governance/content/plan documents
 
 ---
 
