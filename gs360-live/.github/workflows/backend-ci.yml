@@ -1,0 +1,57 @@
+name: GS360 CI
+
+on:
+  push:
+    paths:
+      - 'gs360-live/**'
+      - 'deeptutor/**'
+  pull_request:
+    paths:
+      - 'gs360-live/**'
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gs360-live
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install DeepTutor
+        run: pip install -e ../deeptutor[server] || true
+
+      - name: Install GS360 deps
+        run: pip install -r requirements.txt
+
+      - name: Syntax check backend
+        run: python -m py_compile backend/app/main.py backend/app/config.py backend/app/schemas.py backend/app/security.py
+
+      - name: Run unit tests
+        run: |
+          python week1-spike/prototype/tests/test_isolation.py
+          python scripts/validate-pack.py
+          python scripts/run_integration_checks.py
+
+      - name: Type check (optional)
+        run: pip install mypy && python -m mypy backend/app/main.py --ignore-missing-imports || true
+
+  test-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gs360-live/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install
+        run: npm ci --legacy-peer-deps 2>/dev/null || npm install
+      - name: Lint
+        run: npm run lint || true
+      - name: Build
+        run: npm run build
