@@ -3,7 +3,7 @@ import starlight from "@astrojs/starlight";
 
 export default defineConfig({
   site: "https://jina-code-systems.github.io",
-  base: "/GS360",
+  base: "/GS360/",
   integrations: [
     starlight({
       title: "GS360 Docs",

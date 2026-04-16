@@ -97,17 +97,30 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest --tb=short --no-header -q \
-            --cov=backend --cov=core \
-            --cov-report=term-missing \
-            --cov-report=xml:coverage.xml \
-            || echo "No test files found — skipping coverage"
+          pytest --collect-only --no-header -q > /tmp/pytest-collect.txt 2>&1
+          collect_status=$?
+          cat /tmp/pytest-collect.txt
 
-      - name: Run integration checks
-        run: python scripts/run_integration_checks.py || true
+          if [ $collect_status -ne 0 ]; then
+            exit $collect_status
+          fi
 
-      - name: Validate content packs
-        run: python scripts/validate-pack.py || true
+          if grep -q "collected 0 items" /tmp/pytest-collect.txt; then
+            echo "No test files found — skipping coverage"
+          else
+            pytest --tb=short --no-header -q \
+              --cov=backend --cov=core \
+              --cov-report=term-missing \
+              --cov-report=xml:coverage.xml
+          fi
+
+      - name: Run integration checks (informational)
+        run: python scripts/run_integration_checks.py
+        continue-on-error: true
+
+      - name: Validate content packs (informational)
+        run: python scripts/validate-pack.py
+        continue-on-error: true
 
       - name: Type check (mypy)
         run: |
@@ -142,7 +155,7 @@ jobs:
           cache-dependency-path: gs360-live/web/package-lock.json
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps 2>/dev/null || npm install
+        run: npm ci --legacy-peer-deps
 
       - name: Lint (Next.js ESLint)
         run: npm run lint
@@ -165,7 +178,7 @@ jobs:
           fetch-depth: 0
 
       - name: TruffleHog secret scan
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@v3.88.18
         with:
           extra_args: --only-verified
 

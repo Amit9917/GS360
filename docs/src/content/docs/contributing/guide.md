@@ -64,7 +64,7 @@ Contributing content packs doesn't require code:
 3. Run `python scripts/validate-pack.py` to check it.
 4. Submit a PR.
 
-See the [Content Pack Guide](/GS360/content-packs/guide/) for full details.
+See the [Content Pack Guide](/content-packs/guide/) for full details.
 
 ## What needs a discussion first
 
